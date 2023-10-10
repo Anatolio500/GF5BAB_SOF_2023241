@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Part>
+
+<ul>
+    @foreach (var parts in Model.GroupBy(t => t.SerialNumber))
+    {
+        @foreach (var part in parts)
+        {
+            <li>
+                Name: @part.Name - Serial Number: @parts.Key
+                <ul>
+                        <li>@part.EngineerId</li>
+                </ul>
+            </li>
+        }
+    }
+
+</ul>
