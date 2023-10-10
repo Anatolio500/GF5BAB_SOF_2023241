@@ -12,9 +12,9 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         private readonly ILogger<HomeController> _logger;
 
         private readonly ApplicationDbContext _db;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<SiteUser> _userManager;
 
-        public HomeController(ApplicationDbContext db,ILogger<HomeController> logger, UserManager<IdentityUser> userManager)
+        public HomeController(ApplicationDbContext db,ILogger<HomeController> logger, UserManager<SiteUser> userManager)
         {
             _userManager = userManager;
             _logger = logger;
@@ -26,6 +26,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult ListParts()
         {
             return View(_db.Parts);
@@ -53,8 +54,11 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return RedirectToAction(nameof(ListParts));
         }
 
-        public IActionResult Privacy()
+        [Authorize]
+        public async Task<IActionResult> Privacy()
         {
+            var principal = this.User;
+            var user = await _userManager.GetUserAsync(principal);
             return View();
         }
 

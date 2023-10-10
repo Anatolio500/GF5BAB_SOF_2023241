@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Part>
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<Part>
+@inject SignInManager<SiteUser> SignInManager
+@inject UserManager<SiteUser> UserManager
 
 <ul>
     @foreach (var parts in Model.GroupBy(t => t.SerialNumber))
@@ -8,7 +11,7 @@
             <li>
                 Name: @part.Name - Serial Number: @parts.Key
                 <ul>
-                        <li>@part.EngineerId</li>
+                        <li>@part.Engineer.FirstName @part.Engineer.LastName</li>
                 </ul>
             </li>
         }

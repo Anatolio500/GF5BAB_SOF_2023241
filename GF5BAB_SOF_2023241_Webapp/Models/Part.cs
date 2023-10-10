@@ -17,7 +17,8 @@ namespace GF5BAB_SOF_2023241_Webapp.Models
 
         public string EngineerId { get; set; }
 
-       
+        [NotMapped]
+        public virtual SiteUser Engineer { get; set; }
         public Part()
         {
             Uid = Guid.NewGuid().ToString();

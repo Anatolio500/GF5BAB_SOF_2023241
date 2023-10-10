@@ -1,4 +1,5 @@
 using GF5BAB_SOF_2023241_Webapp.Data;
+using GF5BAB_SOF_2023241_Webapp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,10 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options
+    .UseSqlServer(connectionString)
+    .UseLazyLoadingProxies()
+    );
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => {
+builder.Services.AddDefaultIdentity<SiteUser>(options => {
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = false;
