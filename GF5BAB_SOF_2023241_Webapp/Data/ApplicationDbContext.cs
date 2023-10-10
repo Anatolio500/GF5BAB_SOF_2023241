@@ -14,6 +14,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -34,7 +35,6 @@ namespace GF5BAB_SOF_2023241_Webapp.Data
 
             string filePath = "C:\\Users\\Zsíros Ádám\\Downloads\\TopG.jpg";
             byte[] imageBytes = File.ReadAllBytes(filePath);
-            
 
             PasswordHasher<SiteUser> ph = new PasswordHasher<SiteUser>();
             SiteUser admin = new SiteUser
@@ -49,7 +49,8 @@ namespace GF5BAB_SOF_2023241_Webapp.Data
                 LastName = "Zsíros",
                 Data = imageBytes,
                 ContentType = "image/png",
-        };
+
+            };
             admin.PasswordHash = ph.HashPassword(admin, "adminka1");
             builder.Entity<SiteUser>().HasData(admin);
 
