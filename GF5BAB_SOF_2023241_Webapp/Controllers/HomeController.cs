@@ -26,6 +26,50 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             _emailSender = emailSender;
         }
 
+        public async Task<IActionResult> DelegateAdmin()
+        {
+            var principal = this.User;
+            var user = await _userManager.GetUserAsync(principal);
+            var role = new IdentityRole()
+            {
+                Name = "Admin"
+            };
+            if (!await _roleManager.RoleExistsAsync("Admin"))
+            {
+                await _roleManager.CreateAsync(role);
+            }
+            await _userManager.AddToRoleAsync(user, "Admin");
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Admin()
+        {
+            return View(_db.Parts);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Users()
+        {
+            return View(_userManager.Users);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RemoveAdmin(string uid)
+        {
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.RemoveFromRoleAsync(user, "Admin");
+            return RedirectToAction(nameof(Users));
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GrantAdmin(string uid)
+        {
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.AddToRoleAsync(user, "Admin");
+            return RedirectToAction(nameof(Users));
+        }
+
         public IActionResult Index()
         {
             return View();

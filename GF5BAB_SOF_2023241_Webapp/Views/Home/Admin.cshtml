@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<Part>
+<ul>
+    @foreach (var part in Model.GroupBy(t => t.Name))
+    {
+        <li class="name">
+            @part.Key
+            <ul>
+                @foreach (var item in part)
+                {
+                    <li class="engineer">
+                        <img src="@Url.Action("GetImage", "Home", new {userid = item.EngineerId})" />
+                        @item.Engineer.FirstName @item.Engineer.LastName
+                        <a href="AdminDelete?uid=@item.Uid">Delete</a>
+                    </li>
+                }
+            </ul>
+        </li>
+    }
+
+</ul>
