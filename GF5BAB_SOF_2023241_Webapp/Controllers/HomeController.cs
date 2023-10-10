@@ -2,6 +2,7 @@
 using GF5BAB_SOF_2023241_Webapp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -9,16 +10,20 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IEmailSender _emailSender;
         private readonly ILogger<HomeController> _logger;
 
         private readonly ApplicationDbContext _db;
         private readonly UserManager<SiteUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public HomeController(ApplicationDbContext db,ILogger<HomeController> logger, UserManager<SiteUser> userManager)
+        public HomeController(UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<HomeController> logger, ApplicationDbContext db, IEmailSender emailSender)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _logger = logger;
             _db = db;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()

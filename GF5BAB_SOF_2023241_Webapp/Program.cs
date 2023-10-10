@@ -21,6 +21,7 @@ builder.Services.AddDefaultIdentity<SiteUser>(options => {
     options.Password.RequireUppercase = false;
     }
 )
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 

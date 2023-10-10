@@ -4,6 +4,7 @@ using GF5BAB_SOF_2023241_Webapp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GF5BAB_SOF_2023241_Webapp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231010205409_db_seed")]
+    partial class db_seed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,7 +269,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "6ede6160-68cd-499d-9a9b-a2a77e54fdcb",
+                            UserId = "7024ed61-763e-45e2-870a-bae5f7be480b",
                             RoleId = "1"
                         });
                 });
@@ -318,17 +320,16 @@ namespace GF5BAB_SOF_2023241_Webapp.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6ede6160-68cd-499d-9a9b-a2a77e54fdcb",
+                            Id = "7024ed61-763e-45e2-870a-bae5f7be480b",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "692f947b-4f35-4b69-8e33-b737f57ebad0",
+                            ConcurrencyStamp = "d5c40772-6c83-40c8-9ba1-e4463d59af68",
                             Email = "tassigny4@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "TASSIGNY4@GMAIL.COM",
                             NormalizedUserName = "TASSIGNY4@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIwPXm21E3EkvhTN7DXKPllX+wkI6zGYLSKppb+qLJvkqsZ0F2HLlzks7DitsdquQw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC43tGX7MJkmlt9sBIJzW5Ncfk0mYfauL7AGbbUfzGf80GA3eT5Bbov1guq2w7Ed2A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cd7401b1-e1ce-434e-a8fd-2f1713548a68",
+                            SecurityStamp = "96273070-946b-40f0-9bdb-57f707764014",
                             TwoFactorEnabled = false,
                             UserName = "tassigny4@gmail.com",
                             ContentType = "image/png",
