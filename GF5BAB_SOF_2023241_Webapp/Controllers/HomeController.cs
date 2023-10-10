@@ -73,6 +73,12 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return View();
         }
 
+        public async Task<IActionResult> GetImage(string userid)
+        {
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == userid);
+            return new FileContentResult(user.Data, user.ContentType);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

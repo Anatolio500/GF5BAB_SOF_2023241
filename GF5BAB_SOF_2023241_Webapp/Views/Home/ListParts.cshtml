@@ -8,11 +8,11 @@
     {
         @foreach (var item in parts)
         {
-            <li>
+            <li class="name">
                 Item Name: @item.Name
                 <ul>
-                    <li>
-                        @item.SerialNumber - @item.Engineer.FirstName @item.Engineer.LastName
+                    <li class="engineer">
+                        @item.SerialNumber - <img src="@Url.Action("GetImage", "Home", new {userid = item.EngineerId})" /> @item.Engineer.FirstName @item.Engineer.LastName
                         @if (item.EngineerId == UserManager.GetUserId(User))
                         {
                             <a href="/Home/Delete?uid=@item.Uid">Delete</a>
