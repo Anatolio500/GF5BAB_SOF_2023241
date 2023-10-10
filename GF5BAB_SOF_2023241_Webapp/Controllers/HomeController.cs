@@ -54,7 +54,18 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return RedirectToAction(nameof(ListParts));
         }
 
-        [Authorize]
+        public IActionResult Delete(string uid)
+        {
+            var item = _db.Parts.FirstOrDefault(t => t.Uid == uid);
+            if (item != null && item.EngineerId == _userManager.GetUserId(this.User))
+            {
+                _db.Parts.Remove(item);
+                _db.SaveChanges();
+            }
+            return RedirectToAction(nameof(ListParts));
+        }
+
+            [Authorize]
         public async Task<IActionResult> Privacy()
         {
             var principal = this.User;

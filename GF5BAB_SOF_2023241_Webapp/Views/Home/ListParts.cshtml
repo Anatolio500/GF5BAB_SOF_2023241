@@ -4,14 +4,20 @@
 @inject UserManager<SiteUser> UserManager
 
 <ul>
-    @foreach (var parts in Model.GroupBy(t => t.SerialNumber))
+    @foreach (var parts in Model.GroupBy(t => t.Name))
     {
-        @foreach (var part in parts)
+        @foreach (var item in parts)
         {
             <li>
-                Name: @part.Name - Serial Number: @parts.Key
+                Item Name: @item.Name
                 <ul>
-                        <li>@part.Engineer.FirstName @part.Engineer.LastName</li>
+                    <li>
+                        @item.SerialNumber - @item.Engineer.FirstName @item.Engineer.LastName
+                        @if (item.EngineerId == UserManager.GetUserId(User))
+                        {
+                            <a href="/Home/Delete?uid=@item.Uid">Delete</a>
+                        }
+                    </li>
                 </ul>
             </li>
         }
