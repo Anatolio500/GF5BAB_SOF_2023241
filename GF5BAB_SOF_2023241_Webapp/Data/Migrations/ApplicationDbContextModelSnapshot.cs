@@ -49,7 +49,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Data.Migrations
 
                     b.HasIndex("EngineerId");
 
-                    b.ToTable("Parts");
+                    b.ToTable("Parts", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

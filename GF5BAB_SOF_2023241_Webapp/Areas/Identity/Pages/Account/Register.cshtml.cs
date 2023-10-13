@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using GF5BAB_SOF_2023241_Webapp.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
 {
@@ -31,12 +33,17 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ApplicationDbContext _db;
+
         public RegisterModel(
             UserManager<SiteUser> userManager,
             IUserStore<SiteUser> userStore,
             SignInManager<SiteUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +51,8 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
+            _db = db;
         }
 
         /// <summary>
@@ -134,6 +143,19 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
+                if (_db.Users.ToList().Count == 1)
+                {
+                    var role = new IdentityRole()
+                    {
+                        Name = "Admin"
+                    };
+                    if (!await _roleManager.RoleExistsAsync("Admin"))
+                    {
+                        await _roleManager.CreateAsync(role);
+                    }
+                    await _userManager.AddToRoleAsync(user, "Admin");
+                }
 
                 if (result.Succeeded)
                 {

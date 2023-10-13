@@ -24,16 +24,16 @@ namespace GF5BAB_SOF_2023241_Webapp.Data
                 .WithMany()
                 .HasForeignKey(t => t.EngineerId)
                 .OnDelete(DeleteBehavior.Cascade);
-            base.OnModelCreating(builder);
+            
 
             builder.Entity<IdentityRole>().HasData(
                 new { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },
                 new { Id = "2", Name = "Engineer", NormalizedName = "ENGINEER" },
                 new { Id = "3", Name = "Driver", NormalizedName = "DRIVER" },
                 new { Id = "4", Name = "Teamprincipal", NormalizedName = "TEAMPRINCIPAL" });
-            base.OnModelCreating(builder);
+            
 
-            string filePath = "C:\\Users\\Zsíros Ádám\\Downloads\\TopG.jpg";
+            /*string filePath = "C:\\Users\\Zsíros Ádám\\Downloads\\TopG.jpg";
             byte[] imageBytes = File.ReadAllBytes(filePath);
 
             PasswordHasher<SiteUser> ph = new PasswordHasher<SiteUser>();
@@ -58,7 +58,9 @@ namespace GF5BAB_SOF_2023241_Webapp.Data
             {
                 RoleId = "1",
                 UserId = admin.Id
-            });
+            });*/
+
+            base.OnModelCreating(builder);
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace GF5BAB_SOF_2023241_Webapp.Controllers
@@ -41,6 +42,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             await _userManager.AddToRoleAsync(user, "Admin");
             return RedirectToAction(nameof(Index));
         }
+    
 
         [Authorize(Roles = "Admin")]
         public IActionResult Admin()
@@ -82,7 +84,6 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         }
 
         [Authorize]
-
         public IActionResult AddPart()
         {
             return View();
