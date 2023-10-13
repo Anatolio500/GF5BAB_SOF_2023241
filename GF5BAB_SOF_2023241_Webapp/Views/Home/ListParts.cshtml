@@ -18,7 +18,7 @@
                             <img src="@Url.Action("GetImage", "Home", new {userid = item.EngineerId})" />
                         }else
                         {
-                            <img src="profile_picture.jpg" />
+                            <img src="~/pictures/default_profile_picture.png" />
                         }
                         @item.Engineer.FirstName @item.Engineer.LastName
                         @if (item.EngineerId == UserManager.GetUserId(User))
