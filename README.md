@@ -25,11 +25,11 @@ Kötelező elemek, melyek nélkül a feladat nem fogadható el (összesen 50 pon
 - az MVC tervezési minta segítségével készült, legalább 2 Controllert és összesen 
 legalább 10 Actiont tartalmaz
 
-- legalább SQL adatbázisra vagy valamilyen NOSQL adatbázisra épül
+- legalább SQL adatbázisra vagy valamilyen NOSQL adatbázisra épül - ✅
 
-- legalább lokálisan tárolt felhasználó és szerepkörkezelést tartalmaz 
+- legalább lokálisan tárolt felhasználó és szerepkörkezelést tartalmaz - ✅
 
-- adatbázisában seedelt adatok találhatóak
+- adatbázisában seedelt adatok találhatóak - ✅ 
 
 - adatbázisában (az identity táblákon felül) legalább 2 táblát tartalmaz
 
@@ -43,7 +43,7 @@ domain, azure-os is megfelelő)
 - a controller rétegtől elválasztott logic réteget tartalmaz (de ez egybeolvadhat a 
 repository réteggel is)
 
-- githubon készült el
+- githubon készült el - ✅ 
 
 ## Bónusz
 
@@ -54,7 +54,7 @@ repository réteggel is)
 
 - az API kliensalkalmazás signalR segítségével folyamatosan frissíti a felületét
   
-- tartalmaz kép kezelést (feltöltés/listázás)
+- tartalmaz kép kezelést (feltöltés/listázás) - ✅ 
   
 - használ valamilyen SQL-től eltérő adatbázist (is) pl. cassandra, mongodb, blob 
 storage, stb.
