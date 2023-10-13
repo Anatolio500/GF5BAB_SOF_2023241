@@ -1,4 +1,5 @@
-#Szerveroldali fejlesztés féléves feladat#
+#Szerveroldali fejlesztés féléves feladat
+
 A féléves feladat témáját és funkcióit nektek kell megtervezni! Az elvárás az alábbi táblázat 
 szerint minél több elem felhasználása!
 A feladatot githubon kell fejleszteni és meg kell hívni rá az oenikprog usert! A repository 
