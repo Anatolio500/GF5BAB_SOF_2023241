@@ -12,7 +12,15 @@
                 @foreach (var item in parts)
                 {
                     <li class="engineer">
-                        Serial Number: @item.SerialNumber - <img src="@Url.Action("GetImage", "Home", new {userid = item.EngineerId})" /> @item.Engineer.FirstName @item.Engineer.LastName
+                        Serial Number: @item.SerialNumber - 
+                        @if (item.Engineer.ContentType != null)
+                        {
+                            <img src="@Url.Action("GetImage", "Home", new {userid = item.EngineerId})" />
+                        }else
+                        {
+                            <img src="profile_picture.jpg" />
+                        }
+                        @item.Engineer.FirstName @item.Engineer.LastName
                         @if (item.EngineerId == UserManager.GetUserId(User))
                         {
                             <a href="/Home/Delete?uid=@item.Uid">Delete</a>

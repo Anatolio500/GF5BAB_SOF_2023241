@@ -132,13 +132,24 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
 
-                user.ContentType = Input.File.ContentType;
-                byte[] data = new byte[(int)Input.File.Length];
-                using (var stream = Input.File.OpenReadStream())
+                if (Input.File != null)
                 {
-                    stream.Read(data, 0, data.Length);
+                    user.ContentType = Input.File.ContentType;
+                    byte[] data = new byte[(int)Input.File.Length];
+
+                    using (var stream = Input.File.OpenReadStream())
+                    {
+                        stream.Read(data, 0, data.Length);
+                    }
+                    user.Data = data;
                 }
-                user.Data = data;
+                else
+                {
+                    user.ContentType = null;
+                    user.Data = null;
+                }
+                
+                
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
