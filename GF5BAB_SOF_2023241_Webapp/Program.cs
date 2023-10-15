@@ -18,7 +18,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<SiteUser>(options => {
 
-    options.SignIn.RequireConfirmedAccount = true;
+    options.SignIn.RequireConfirmedAccount = false; // Ezt kell true-ra állítani ha akarsz email megerõsítést (direkt false egyenlõre)
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 3;
     options.Password.RequireNonAlphanumeric = false;

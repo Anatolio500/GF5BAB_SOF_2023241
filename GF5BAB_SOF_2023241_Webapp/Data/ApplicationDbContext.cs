@@ -9,6 +9,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+        public DbSet<Meeting> Meetings { get; set; }
         public DbSet<Part> Parts { get; set; } 
         public DbSet<SiteUser> Users { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -24,7 +25,13 @@ namespace GF5BAB_SOF_2023241_Webapp.Data
                 .WithMany()
                 .HasForeignKey(t => t.EngineerId)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
+            builder.Entity<Meeting>()
+                .HasOne(t => t.TeamPrincipal)
+                .WithMany()
+                .HasForeignKey(t => t.TeamPrincipalId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             builder.Entity<IdentityRole>().HasData(
                 new { Id = "1", Name = "Admin", NormalizedName = "ADMIN" },

@@ -104,7 +104,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return RedirectToAction(nameof(ListParts));
         }
 
-        public IActionResult Delete(string uid)
+        public IActionResult DeletePart(string uid)
         {
             var item = _db.Parts.FirstOrDefault(t => t.Uid == uid);
             if (item != null && item.EngineerId == _userManager.GetUserId(this.User))
@@ -115,7 +115,45 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return RedirectToAction(nameof(ListParts));
         }
 
-            [Authorize]
+        [Authorize]
+        public IActionResult ListMeetings()
+        {
+            return View(_db.Meetings);
+        }
+
+        [Authorize]
+        public IActionResult AddMeeting()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddMeeting(Meeting meeting)
+        {
+            meeting.TeamPrincipalId = _userManager.GetUserId(this.User);
+            var old = _db.Meetings.FirstOrDefault(t => t.Name == meeting.Name && t.TeamPrincipalId == meeting.TeamPrincipalId);
+            if (old == null)
+            {
+                _db.Meetings.Add(meeting);
+                _db.SaveChanges();
+            }
+
+            return RedirectToAction(nameof(ListMeetings));
+        }
+
+        public IActionResult DeleteMeeting(string uid)
+        {
+            var item = _db.Meetings.FirstOrDefault(t => t.Uid == uid);
+            if (item != null && item.TeamPrincipalId == _userManager.GetUserId(this.User))
+            {
+                _db.Meetings.Remove(item);
+                _db.SaveChanges();
+            }
+            return RedirectToAction(nameof(ListMeetings));
+        }
+
+        [Authorize]
         public async Task<IActionResult> Privacy()
         {
             var principal = this.User;

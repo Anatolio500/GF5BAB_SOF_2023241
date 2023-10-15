@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<Meeting>
+@inject SignInManager<SiteUser> SignInManager
+@inject UserManager<SiteUser> UserManager
+
+<ul>
+    @foreach (var meetings in Model.GroupBy(t => t.Name))
+    {
+        <li class="name">
+            Name: @meetings.Key
+            <ul>
+                @foreach (var item in meetings)
+                {
+                    <li class="engineer">
+                        Topics: @item.Topics <br/>
+                        Start: @item.StartingTime <br/>
+                        End: @item.EndingTime <br/>
+                        Added by -@item.TeamPrincipal.FirstName @item.TeamPrincipal.LastName
+                        @if (item.TeamPrincipalId == UserManager.GetUserId(User))
+                        {
+                            <a href="/Home/DeleteMeeting?uid=@item.Uid">Delete</a>
+                        }
+                    </li>
+                }
+            </ul>
+        </li>
+    }
+
+</ul>
