@@ -78,6 +78,44 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         }
 
         [Authorize]
+        public IActionResult ListTests()
+        {
+            return View(_db.Tests);
+        }
+
+        [Authorize]
+        public IActionResult AddTest()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddTest(Test test)
+        {
+            test.DriverId = _userManager.GetUserId(this.User);
+            var old = _db.Tests.FirstOrDefault(t => t.Name == test.Name && t.DriverId == test.DriverId);
+            if (old == null)
+            {
+                _db.Tests.Add(test);
+                _db.SaveChanges();
+            }
+
+            return RedirectToAction(nameof(ListTests));
+        }
+
+        public IActionResult DeleteTest(string uid)
+        {
+            var item = _db.Tests.FirstOrDefault(t => t.Uid == uid);
+            if (item != null && item.DriverId == _userManager.GetUserId(this.User))
+            {
+                _db.Tests.Remove(item);
+                _db.SaveChanges();
+            }
+            return RedirectToAction(nameof(ListTests));
+        }
+
+        [Authorize]
         public IActionResult ListParts()
         {
             return View(_db.Parts);

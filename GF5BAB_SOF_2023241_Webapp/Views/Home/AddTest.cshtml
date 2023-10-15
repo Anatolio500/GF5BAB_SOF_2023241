@@ -1,10 +1,10 @@
-﻿@model GF5BAB_SOF_2023241_Webapp.Models.Meeting
+﻿@model GF5BAB_SOF_2023241_Webapp.Models.Test
 
-<h4>Meeting</h4>
+<h4>Test</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddMeeting">
+        <form asp-action="AddTest">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -12,9 +12,9 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Topics" class="control-label"></label>
-                <input asp-for="Topics" class="form-control" />
-                <span asp-validation-for="Topics" class="text-danger"></span>
+                <label asp-for="PartName" class="control-label"></label>
+                <input asp-for="PartName" class="form-control" />
+                <span asp-validation-for="PartName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StartingTime" class="control-label"></label>
@@ -34,5 +34,6 @@
 </div>
 
 <div>
-    <a asp-action="ListMeetings">Back to List</a>
+    <a asp-action="ListTests">Back to List</a>
 </div>
+

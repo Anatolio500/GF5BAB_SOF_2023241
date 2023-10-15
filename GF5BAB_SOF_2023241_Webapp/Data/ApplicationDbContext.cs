@@ -11,6 +11,8 @@ namespace GF5BAB_SOF_2023241_Webapp.Data
     {
         public DbSet<Meeting> Meetings { get; set; }
         public DbSet<Part> Parts { get; set; } 
+        
+        public DbSet<Test> Tests { get; set; }
         public DbSet<SiteUser> Users { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -31,6 +33,12 @@ namespace GF5BAB_SOF_2023241_Webapp.Data
                 .WithMany()
                 .HasForeignKey(t => t.TeamPrincipalId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Test>()
+               .HasOne(t => t.Driver)
+               .WithMany()
+               .HasForeignKey(t => t.DriverId)
+               .OnDelete(DeleteBehavior.Cascade);
 
 
             builder.Entity<IdentityRole>().HasData(

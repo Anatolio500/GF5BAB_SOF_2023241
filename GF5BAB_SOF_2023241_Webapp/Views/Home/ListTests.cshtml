@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<Test>
+@inject SignInManager<SiteUser> SignInManager
+@inject UserManager<SiteUser> UserManager
+
+<ul>
+    @foreach (var tests in Model.GroupBy(t => t.Name))
+    {
+        <li class="name">
+            Name: @tests.Key
+            <ul>
+                @foreach (var item in tests)
+                {
+                    <li class="engineer">
+                        Part: @item.PartName <br />
+                        Start: @item.StartingTime <br />
+                        End: @item.EndingTime <br />
+                        Added by -@item.Driver.FirstName @item.Driver.LastName
+                        @if (item.DriverId == UserManager.GetUserId(User))
+                        {
+                            <a href="/Home/DeleteTest?uid=@item.Uid">Delete</a>
+                        }
+                    </li>
+                }
+            </ul>
+        </li>
+    }
+
+</ul>
