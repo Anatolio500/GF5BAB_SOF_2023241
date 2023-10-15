@@ -60,7 +60,7 @@ repository réteggel is)
 storage, stb.
 
 - használ email küldést a regisztrációk megerősítésére és/vagy bizonyos események 
-teljesülésekor a felhasználók értesítésére
+teljesülésekor a felhasználók értesítésére - ✅
 
 - időzített feladatot is tartalmaz Azure Functions vagy valamilyen alternatív 
 megoldással (pl. crontab). pl: akciók beállítása pontban éjfélkor
