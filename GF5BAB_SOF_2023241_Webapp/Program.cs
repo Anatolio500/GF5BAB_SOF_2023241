@@ -1,6 +1,8 @@
 using GF5BAB_SOF_2023241_Webapp.Data;
 using GF5BAB_SOF_2023241_Webapp.Models;
+using GF5BAB_SOF_2023241_Webapp.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<SiteUser>(options => {
+
+    options.SignIn.RequireConfirmedAccount = true;
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 3;
     options.Password.RequireNonAlphanumeric = false;
@@ -23,6 +27,10 @@ builder.Services.AddDefaultIdentity<SiteUser>(options => {
 )
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
