@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<SiteUser> SignInManager
+@inject UserManager<SiteUser> UserManager
+
+
+@if (SignInManager.IsSignedIn(User) && (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Engineer"))
+   || (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "TeamPrincipal"))
+   || (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin")))
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Part" asp-action="ListParts">List Parts</a>
+    </li>
+}
+@if (SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Engineer")
+   || (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin")))
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Part" asp-action="AddPart">Add Part</a>
+    </li>
+}
+
+

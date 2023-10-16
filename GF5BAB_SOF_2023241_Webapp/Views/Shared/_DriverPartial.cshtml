@@ -3,13 +3,18 @@
 @inject UserManager<SiteUser> UserManager
 
 
-@if (SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Driver"))
+@if (SignInManager.IsSignedIn(User) && (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Driver"))
+    || (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "TeamPrincipal")) 
+    || (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin")))
 {
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ListTests">List Tests</a>
-    </li>
-
+        <a class="nav-link text-dark" asp-area="" asp-controller="Test" asp-action="ListTests">List Tests</a>
+    </li>    
+}
+@if(SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Driver")
+    || (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin")))
+{
     <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AddTest">Add Test</a>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Test" asp-action="AddTest">Add Test</a>
     </li>
 }

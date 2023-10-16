@@ -42,7 +42,11 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             await _userManager.AddToRoleAsync(user, "Admin");
             return RedirectToAction(nameof(Index));
         }
-    
+
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         [Authorize(Roles = "Admin")]
         public IActionResult Admin()
@@ -72,123 +76,52 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return RedirectToAction(nameof(Users));
         }
 
-        public IActionResult Index()
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RemoveDriver(string uid)
         {
-            return View();
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.RemoveFromRoleAsync(user, "Driver");
+            return RedirectToAction(nameof(Users));
         }
 
-        [Authorize]
-        public IActionResult ListTests()
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GrantDriver(string uid)
         {
-            return View(_db.Tests);
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.AddToRoleAsync(user, "Driver");
+            return RedirectToAction(nameof(Users));
         }
 
-        [Authorize]
-        public IActionResult AddTest()
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RemoveEngineer(string uid)
         {
-            return View();
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.RemoveFromRoleAsync(user, "Engineer");
+            return RedirectToAction(nameof(Users));
         }
 
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> AddTest(Test test)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GrantEngineer(string uid)
         {
-            test.DriverId = _userManager.GetUserId(this.User);
-            var old = _db.Tests.FirstOrDefault(t => t.Name == test.Name && t.DriverId == test.DriverId);
-            if (old == null)
-            {
-                _db.Tests.Add(test);
-                _db.SaveChanges();
-            }
-
-            return RedirectToAction(nameof(ListTests));
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.AddToRoleAsync(user, "Engineer");
+            return RedirectToAction(nameof(Users));
         }
 
-        public IActionResult DeleteTest(string uid)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RemoveTeamprincipal(string uid)
         {
-            var item = _db.Tests.FirstOrDefault(t => t.Uid == uid);
-            if (item != null && item.DriverId == _userManager.GetUserId(this.User))
-            {
-                _db.Tests.Remove(item);
-                _db.SaveChanges();
-            }
-            return RedirectToAction(nameof(ListTests));
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.RemoveFromRoleAsync(user, "Teamprincipal");
+            return RedirectToAction(nameof(Users));
         }
 
-        [Authorize]
-        public IActionResult ListParts()
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GrantTeamprincipal(string uid)
         {
-            return View(_db.Parts);
-        }
-
-        [Authorize]
-        public IActionResult AddPart()
-        {
-            return View();
-        }
-
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> AddPart(Part part)
-        {
-            part.EngineerId = _userManager.GetUserId(this.User);
-            var old = _db.Parts.FirstOrDefault(t => t.SerialNumber == part.SerialNumber && t.EngineerId == part.EngineerId);
-            if (old == null)
-            {
-                _db.Parts.Add(part);
-                _db.SaveChanges();
-            }
-
-            return RedirectToAction(nameof(ListParts));
-        }
-
-        public IActionResult DeletePart(string uid)
-        {
-            var item = _db.Parts.FirstOrDefault(t => t.Uid == uid);
-            if (item != null && item.EngineerId == _userManager.GetUserId(this.User))
-            {
-                _db.Parts.Remove(item);
-                _db.SaveChanges();
-            }
-            return RedirectToAction(nameof(ListParts));
-        }
-
-        [Authorize]
-        public IActionResult ListMeetings()
-        {
-            return View(_db.Meetings);
-        }
-
-        [Authorize]
-        public IActionResult AddMeeting()
-        {
-            return View();
-        }
-
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> AddMeeting(Meeting meeting)
-        {
-            meeting.TeamPrincipalId = _userManager.GetUserId(this.User);
-            var old = _db.Meetings.FirstOrDefault(t => t.Name == meeting.Name && t.TeamPrincipalId == meeting.TeamPrincipalId);
-            if (old == null)
-            {
-                _db.Meetings.Add(meeting);
-                _db.SaveChanges();
-            }
-
-            return RedirectToAction(nameof(ListMeetings));
-        }
-
-        public IActionResult DeleteMeeting(string uid)
-        {
-            var item = _db.Meetings.FirstOrDefault(t => t.Uid == uid);
-            if (item != null && item.TeamPrincipalId == _userManager.GetUserId(this.User))
-            {
-                _db.Meetings.Remove(item);
-                _db.SaveChanges();
-            }
-            return RedirectToAction(nameof(ListMeetings));
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.AddToRoleAsync(user, "Teamprincipal");
+            return RedirectToAction(nameof(Users));
         }
 
         [Authorize]
