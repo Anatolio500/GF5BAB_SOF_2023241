@@ -3,20 +3,26 @@
 @inject UserManager<SiteUser> UserManager
 
 
-@if (SignInManager.IsSignedIn(User) && (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Engineer"))
+@if (SignInManager.IsSignedIn(User))
+{
+    @if((await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Engineer"))
    || (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "TeamPrincipal"))
    || (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin")))
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Part" asp-action="ListParts">List Parts</a>
-    </li>
+   {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Part" asp-action="ListParts">List Parts</a>
+        </li>
+   }
 }
-@if (SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Engineer")
-   || (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin")))
+@if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Part" asp-action="AddPart">Add Part</a>
-    </li>
+    @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Engineer")
+  || (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin")))
+  {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Part" asp-action="AddPart">Add Part</a>
+        </li>
+  }
 }
 
 

@@ -24,20 +24,20 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Driver,Engineer,Teamprincipal,Admin")]
         public IActionResult ListMeetings()
         {
             return View(_db.Meetings);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Teamprincipal,Admin")]
         public IActionResult AddMeeting()
         {
             return View();
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize(Roles = "Teamprincipal,Admin")]
         public async Task<IActionResult> AddMeeting(Meeting meeting)
         {
             meeting.TeamPrincipalId = _userManager.GetUserId(this.User);
@@ -51,6 +51,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return RedirectToAction(nameof(ListMeetings));
         }
 
+        [Authorize(Roles = "Teamprincipal,Admin")]
         public IActionResult DeleteMeeting(string uid)
         {
             var item = _db.Meetings.FirstOrDefault(t => t.Uid == uid);

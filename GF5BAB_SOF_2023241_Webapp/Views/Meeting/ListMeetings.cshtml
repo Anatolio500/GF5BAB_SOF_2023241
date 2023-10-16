@@ -18,7 +18,7 @@
                         Added by -@item.TeamPrincipal.FirstName @item.TeamPrincipal.LastName
                         @if (item.TeamPrincipalId == UserManager.GetUserId(User))
                         {
-                            <a href="/Home/DeleteMeeting?uid=@item.Uid">Delete</a>
+                            <a href="/Meeting/DeleteMeeting?uid=@item.Uid">Delete</a>
                         }
                     </li>
                 }

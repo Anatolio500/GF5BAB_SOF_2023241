@@ -49,12 +49,6 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult Admin()
-        {
-            return View(_db.Parts);
-        }
-
-        [Authorize(Roles = "Admin")]
         public IActionResult Users()
         {
             return View(_userManager.Users);

@@ -24,20 +24,20 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Engineer,Teamprincipal,Admin")]
         public IActionResult ListParts()
         {
             return View(_db.Parts);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Engineer,Admin")]
         public IActionResult AddPart()
         {
             return View();
         }
 
-        [Authorize]
         [HttpPost]
+        [Authorize(Roles = "Engineer,Admin")]
         public async Task<IActionResult> AddPart(Part part)
         {
             part.EngineerId = _userManager.GetUserId(this.User);
@@ -51,6 +51,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return RedirectToAction(nameof(ListParts));
         }
 
+        [Authorize(Roles = "Engineer,Admin")]
         public IActionResult DeletePart(string uid)
         {
             var item = _db.Parts.FirstOrDefault(t => t.Uid == uid);

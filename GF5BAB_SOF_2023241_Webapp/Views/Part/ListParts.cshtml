@@ -23,7 +23,7 @@
                         @item.Engineer.FirstName @item.Engineer.LastName
                         @if (item.EngineerId == UserManager.GetUserId(User))
                         {
-                            <a href="/Home/DeletePart?uid=@item.Uid">Delete</a>
+                            <a href="/Part/DeletePart?uid=@item.Uid">Delete</a>
                         }
                     </li>
                 }

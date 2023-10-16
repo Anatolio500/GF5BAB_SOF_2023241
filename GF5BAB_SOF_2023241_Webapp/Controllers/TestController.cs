@@ -25,15 +25,13 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Driver")]
-        [Authorize(Roles = "Teamprincipal")]
+        [Authorize(Roles = "Driver,Teamprincipal,Admin")]
         public IActionResult ListTests()
         {
             return View(_db.Tests);
         }
 
-        
+        [Authorize(Roles = "Driver,Admin")]
         public IActionResult AddTest()
         {
             return View();
@@ -41,8 +39,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
 
         
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Driver")]
+        [Authorize(Roles = "Driver,Admin")]
         public async Task<IActionResult> AddTest(Test test)
         {
             test.DriverId = _userManager.GetUserId(this.User);
@@ -56,8 +53,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return RedirectToAction(nameof(ListTests));
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Driver")]
+        [Authorize(Roles = "Driver,Admin")]
         public IActionResult DeleteTest(string uid)
         {
             var item = _db.Tests.FirstOrDefault(t => t.Uid == uid);
