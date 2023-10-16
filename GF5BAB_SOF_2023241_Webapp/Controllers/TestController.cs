@@ -1,6 +1,7 @@
 ﻿using GF5BAB_SOF_2023241_Webapp.Data;
 using GF5BAB_SOF_2023241_Webapp.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,20 +25,24 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Driver")]
+        [Authorize(Roles = "Teamprincipal")]
         public IActionResult ListTests()
         {
             return View(_db.Tests);
         }
 
-        [Authorize]
+        
         public IActionResult AddTest()
         {
             return View();
         }
 
-        [Authorize]
+        
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Driver")]
         public async Task<IActionResult> AddTest(Test test)
         {
             test.DriverId = _userManager.GetUserId(this.User);
@@ -51,6 +56,8 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             return RedirectToAction(nameof(ListTests));
         }
 
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Driver")]
         public IActionResult DeleteTest(string uid)
         {
             var item = _db.Tests.FirstOrDefault(t => t.Uid == uid);
