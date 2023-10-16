@@ -23,7 +23,7 @@ Kötelező elemek, melyek nélkül a feladat nem fogadható el (összesen 50 pon
 ## Az alkalmazás...
 
 - az MVC tervezési minta segítségével készült, legalább 2 Controllert és összesen 
-legalább 10 Actiont tartalmaz
+legalább 10 Actiont tartalmaz - ✅
 
 - legalább SQL adatbázisra vagy valamilyen NOSQL adatbázisra épül - ✅
 
@@ -36,9 +36,9 @@ legalább 10 Actiont tartalmaz
 - publikusan elérhető egy domain címen keresztül bárki számára (nem szükséges saját 
 domain, azure-os is megfelelő)
 
-- tartalmaz a template-ben biztosítotton felül valamilyen alapvető formázásokat CSSel (saját vagy library)
+- tartalmaz a template-ben biztosítotton felül valamilyen alapvető formázásokat CSSel (saját vagy library) - ✅
 
-- validációkat tartalmaz mind kliens – mind szerveroldalon 
+- validációkat tartalmaz mind kliens – mind szerveroldalon - ? (Szerepkör validáció beszámít e)
 
 - a controller rétegtől elválasztott logic réteget tartalmaz (de ez egybeolvadhat a 
 repository réteggel is)
