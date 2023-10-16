@@ -3,19 +3,59 @@
 @inject SignInManager<SiteUser> SignInManager
 @inject UserManager<SiteUser> UserManager
 
-<ul>
+<div class="table-with-header-styling">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Driver Role</th>
+            <th>Engineer Role</th>
+            <th>Teamprincipal Role</th>
+            <th>Admin Role</th>
+        </tr>
     @foreach (var user in Model)
     {
-        <li>
-            @user.FirstName @user.LastName
-            @if (await UserManager.IsInRoleAsync(user, "Admin"))
-            {
-                <a class="btn btn-danger" href="/Home/RemoveAdmin?uid=@user.Id">Remove Admin Rights</a>
-            }
-            else
-            {
-                <a class="btn btn-success" href="/Home/GrantAdmin?uid=@user.Id">Grant Admin Rights</a>
-            }
-        </li>
+        <tr>
+            <td>@user.FirstName @user.LastName</td>
+            <td>
+                @if (await UserManager.IsInRoleAsync(user, "Driver"))
+                {
+                    <a class="btn btn-danger" href="/Home/RemoveDriver?uid=@user.Id">Remove Driver Rights</a>
+                }
+                else
+                {
+                    <a class="btn btn-success" href="/Home/GrantDriver?uid=@user.Id">Grant Driver Rights</a>
+                }
+            </td>
+            <td>
+                @if (await UserManager.IsInRoleAsync(user, "Engineer"))
+                {
+                    <a class="btn btn-danger" href="/Home/RemoveEngineer?uid=@user.Id">Remove Engineer Rights</a>
+                }
+                else
+                {
+                    <a class="btn btn-success" href="/Home/GrantEngineer?uid=@user.Id">Grant Engineer Rights</a>
+                }
+            </td>
+            <td>
+                @if (await UserManager.IsInRoleAsync(user, "Teamprincipal"))
+                {
+                    <a class="btn btn-danger" href="/Home/RemoveTeamprincipal?uid=@user.Id">Remove Teamprincipal Rights</a>
+                }
+                else
+                {
+                    <a class="btn btn-success" href="/Home/GrantTeamprincipal?uid=@user.Id">Grant Teamprincipal Rights</a>
+                }
+            </td>
+            <td>
+                @if (await UserManager.IsInRoleAsync(user, "Admin"))
+                {
+                    <a class="btn btn-danger" href="/Home/RemoveAdmin?uid=@user.Id">Remove Admin Rights</a>
+                }
+                else
+                {
+                    <a class="btn btn-success" href="/Home/GrantAdmin?uid=@user.Id">Grant Admin Rights</a>
+                }
+            </td>
+        </tr>           
     }
-</ul>
+</div>
