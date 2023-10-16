@@ -36,7 +36,7 @@ legalább 10 Actiont tartalmaz - ✅
 - publikusan elérhető egy domain címen keresztül bárki számára (nem szükséges saját 
 domain, azure-os is megfelelő)
 
-- tartalmaz a template-ben biztosítotton felül valamilyen alapvető formázásokat CSSel (saját vagy library) - ✅
+- tartalmaz a template-ben biztosítotton felül valamilyen alapvető formázásokat CSS-el (saját vagy library) - ✅
 
 - validációkat tartalmaz mind kliens – mind szerveroldalon - ? (Szerepkör validáció beszámít e)
 
