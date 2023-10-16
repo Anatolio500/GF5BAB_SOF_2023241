@@ -31,7 +31,7 @@ legalább 10 Actiont tartalmaz
 
 - adatbázisában seedelt adatok találhatóak - ✅ 
 
-- adatbázisában (az identity táblákon felül) legalább 2 táblát tartalmaz
+- adatbázisában (az identity táblákon felül) legalább 2 táblát tartalmaz - ✅ 
 
 - publikusan elérhető egy domain címen keresztül bárki számára (nem szükséges saját 
 domain, azure-os is megfelelő)
