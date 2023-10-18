@@ -63,6 +63,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
                 _db.Tests.Remove(item);
                 _db.SaveChanges();
             }
+            TempData["DeleteSuccessMessage"] = "Item deleted successfully!";
             return RedirectToAction(nameof(ListTests));
         }
 
@@ -70,6 +71,13 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         public IActionResult ResetSuccessMessage()
         {
             TempData["SuccessMessage"] = null;
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult ResetDeleteSuccessMessage()
+        {
+            TempData["DeleteSuccessMessage"] = null;
             return Ok();
         }
     }

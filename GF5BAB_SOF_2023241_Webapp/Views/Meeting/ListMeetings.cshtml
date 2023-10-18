@@ -5,6 +5,13 @@
 
 
 <div>
+    @if (TempData["DeleteSuccessMessage"] != null)
+    {
+        <div class="alert alert-success" id="delete-success-alert">
+            @TempData["DeleteSuccessMessage"]
+        </div>
+    }
+
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert alert-success" id="success-alert">
@@ -20,6 +27,10 @@
                         <h5 class="card-title">@item.Name</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Topics: @item.Topics</h6>
                         <p class="card-text">Start: @item.StartingTime - End: @item.EndingTime</p>
+                        @if (item.TeamPrincipalId == UserManager.GetUserId(User))
+                        {
+                            <a href="/Meeting/DeleteMeeting?uid=@item.Uid" class="btn btn-danger">Delete</a>
+                        }  
                     </div>
                 </div>
             </div>
@@ -40,4 +51,18 @@
     }
 
     setTimeout(hideAlert, 5000);
+</script>
+
+<script>
+    function hideDeleteSuccessAlert() {
+        $('#delete-success-alert').alert('close');
+        $.ajax({
+            url: '/Meeting/ResetDeleteSuccessMessage',
+            method: 'POST',
+            success: function () {
+            }
+        });
+    }
+
+    setTimeout(hideDeleteSuccessAlert, 5000);
 </script>

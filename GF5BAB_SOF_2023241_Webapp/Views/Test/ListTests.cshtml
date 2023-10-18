@@ -4,6 +4,13 @@
 @inject UserManager<SiteUser> UserManager
 
 <div>
+    @if (TempData["DeleteSuccessMessage"] != null)
+    {
+        <div class="alert alert-success" id="delete-success-alert">
+            @TempData["DeleteSuccessMessage"]
+        </div>
+    }
+
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert alert-success" id="success-alert">
@@ -26,7 +33,7 @@
                             Added by -@item.Driver.FirstName @item.Driver.LastName
                             @if (item.DriverId == UserManager.GetUserId(User))
                             {
-                                <a href="/Test/DeleteTest?uid=@item.Uid">Delete</a>
+                                <a href="/Test/DeleteTest?uid=@item.Uid" class="btn btn-danger">Delete</a>
                             }
                         </li>
                     }
@@ -50,5 +57,19 @@
     }
 
     setTimeout(hideAlert, 5000);
+</script>
+
+<script>
+    function hideDeleteSuccessAlert() {
+        $('#delete-success-alert').alert('close');
+        $.ajax({
+            url: '/Test/ResetDeleteSuccessMessage',
+            method: 'POST',
+            success: function () {
+            }
+        });
+    }
+
+    setTimeout(hideDeleteSuccessAlert, 5000);
 </script>
 

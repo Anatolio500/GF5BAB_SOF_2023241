@@ -61,6 +61,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
                 _db.Meetings.Remove(item);
                 _db.SaveChanges();
             }
+            TempData["DeleteSuccessMessage"] = "Item deleted successfully!";
             return RedirectToAction(nameof(ListMeetings));
         }
 
@@ -70,5 +71,13 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             TempData["SuccessMessage"] = null;
             return Ok();
         }
+
+        [HttpPost]
+        public IActionResult ResetDeleteSuccessMessage()
+        {
+            TempData["DeleteSuccessMessage"] = null;
+            return Ok();
+        }
+
     }
 }
