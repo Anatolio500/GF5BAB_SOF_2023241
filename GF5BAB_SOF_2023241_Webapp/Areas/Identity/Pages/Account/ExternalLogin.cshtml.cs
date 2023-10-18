@@ -18,6 +18,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System.Net;
+using System.Collections.Specialized;
 
 namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
 {
@@ -76,6 +79,13 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
+
+        public class TokenModel
+        {
+            public string access_token { get; set; }
+            public string token_type { get; set; }
+        }
+
         public class InputModel
         {
             /// <summary>
@@ -85,6 +95,16 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Required]
+            [StringLength(100)]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(100)]
+            public string LastName { get; set; }
+
+            public string PictureUrl { get; set; }
         }
         
         public IActionResult OnGet() => RedirectToPage("./Login");
@@ -130,10 +150,32 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
                 ProviderDisplayName = info.ProviderDisplayName;
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
+                    var id = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                        FirstName = info.Principal.FindFirstValue(ClaimTypes.Surname),
+                        LastName = info.Principal.FindFirstValue(ClaimTypes.GivenName)
                     };
+
+                    /*if (info.ProviderDisplayName == "Facebook")
+                    {
+                        var client = new WebClient();
+                        var postValues = new NameValueCollection
+                        {
+                            { "client_id", "201877619599899" },
+                            { "client_secret", "61252d640f38fc0df806d8b5c7df182f" }
+                        };
+
+                        var responseBytes = client.UploadValues("https://graph.facebook.com/oauth/access_token", "POST", postValues);
+                        var responseString = Encoding.Default.GetString(responseBytes);
+                        var token = JsonConvert.DeserializeObject<TokenModel>(responseString);
+                        
+                        var access_token_json = new WebClient().DownloadString("https://graph.facebook.com/oauth/access_token?client_id=432880205364301&client_secret=057aabcf79ef365533cdab4cae0f3112&grant_type=client_credentials");
+                        var token = JsonConvert.DeserializeObject<TokenModel>(access_token_json);
+
+                        Input.PictureUrl = $"https://graph.facebook.com/{id}/picture?type=large&access_token={token.access_token}";
+                    }*/
                 }
                 return Page();
             }
@@ -153,6 +195,16 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+
+                /*if (info.ProviderDisplayName == "Facebook")
+                {
+                    var wc = new WebClient();
+                    user.Data = wc.DownloadData(Input.PictureUrl);
+                    user.ContentType = wc.ResponseHeaders["Content-Type"];
+                    user.EmailConfirmed = true;
+                }*/
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

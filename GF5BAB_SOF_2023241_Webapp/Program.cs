@@ -28,6 +28,13 @@ builder.Services.AddDefaultIdentity<SiteUser>(options => {
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddAuthentication()
+    .AddFacebook(opt =>
+    {
+        opt.AppId = "201877619599899";
+        opt.AppSecret = "61252d640f38fc0df806d8b5c7df182f";
+    });
+
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
