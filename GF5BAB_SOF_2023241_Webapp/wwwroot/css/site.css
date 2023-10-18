@@ -29,6 +29,12 @@ img {
     border-bottom: 1px solid black;
 }
 
+#title {
+    font-size: 1.5rem;
+    font-weight: normal;
+
+}
+
 .engineer {
     font-size: 1.3em;
     margin: 20px;
