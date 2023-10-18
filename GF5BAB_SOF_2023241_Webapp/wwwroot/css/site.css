@@ -62,6 +62,7 @@ ul {
         border: 1px solid #000; 
     }
 
+//ListMeetings
 .meetinggrid {
     display: grid;
     grid-template-columns: auto auto auto;
@@ -76,5 +77,10 @@ ul {
     .meetinggrid {
         width: 100vw;
     }
+}
+
+#AddMarginDiv {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 

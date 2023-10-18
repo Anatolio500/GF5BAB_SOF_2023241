@@ -2,38 +2,36 @@
 
 <h4>Test</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddTest">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PartName" class="control-label"></label>
-                <input asp-for="PartName" class="form-control" />
-                <span asp-validation-for="PartName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StartingTime" class="control-label"></label>
-                <input asp-for="StartingTime" class="form-control" />
-                <span asp-validation-for="StartingTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndingTime" class="control-label"></label>
-                <input asp-for="EndingTime" class="form-control" />
-                <span asp-validation-for="EndingTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="AddTest">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div id="AddMarginDiv" class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            <div id="AddMarginDiv" class="form-group">
+                    <label asp-for="PartName" class="control-label"></label>
+                    <input asp-for="PartName" class="form-control" />
+                    <span asp-validation-for="PartName" class="text-danger"></span>
+                </div>
+            <div id="AddMarginDiv" class="form-group">
+                    <label asp-for="StartingTime" class="control-label"></label>
+                    <input asp-for="StartingTime" class="form-control" />
+                    <span asp-validation-for="StartingTime" class="text-danger"></span>
+                </div>
+            <div id="AddMarginDiv" class="form-group">
+                    <label asp-for="EndingTime" class="control-label"></label>
+                    <input asp-for="EndingTime" class="form-control" />
+                    <span asp-validation-for="EndingTime" class="text-danger"></span>
+                </div>
+            <div id="AddMarginDiv" class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="ListTests">Back to List</a>
-</div>
-
+    <div>
+        <a asp-action="ListTests" class="btn btn-danger">Back to List</a>
+    </div>

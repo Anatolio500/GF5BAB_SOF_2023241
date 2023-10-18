@@ -6,33 +6,33 @@
     <div class="col-md-4">
         <form asp-action="AddMeeting">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div id="AddMarginDiv" class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div id="AddMarginDiv" class="form-group">
                 <label asp-for="Topics" class="control-label"></label>
                 <input asp-for="Topics" class="form-control" />
                 <span asp-validation-for="Topics" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div id="AddMarginDiv" class="form-group">
                 <label asp-for="StartingTime" class="control-label"></label>
                 <input asp-for="StartingTime" class="form-control" />
                 <span asp-validation-for="StartingTime" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div id="AddMarginDiv" class="form-group">
                 <label asp-for="EndingTime" class="control-label"></label>
                 <input asp-for="EndingTime" class="form-control" />
                 <span asp-validation-for="EndingTime" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div id="AddMarginDiv" class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="ListMeetings">Back to List</a>
+<div id="AddMarginDiv">
+    <a asp-action="ListMeetings" class="btn btn-danger">Back to List</a>
 </div>
