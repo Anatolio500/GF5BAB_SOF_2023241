@@ -48,6 +48,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
                 _db.SaveChanges();
             }
 
+            TempData["SuccessMessage"] = "Item created successfully!";
             return RedirectToAction(nameof(ListParts));
         }
 
@@ -61,6 +62,13 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
                 _db.SaveChanges();
             }
             return RedirectToAction(nameof(ListParts));
+        }
+
+        [HttpPost]
+        public IActionResult ResetSuccessMessage()
+        {
+            TempData["SuccessMessage"] = null;
+            return Ok();
         }
     }
 }
