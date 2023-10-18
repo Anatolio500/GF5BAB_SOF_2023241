@@ -3,7 +3,20 @@
 @inject SignInManager<SiteUser> SignInManager
 @inject UserManager<SiteUser> UserManager
 
-<div>
+@{
+    int count = 0;
+}
+
+<h4>Test</h4>
+@if ((await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Driver"))
+|| (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin")))
+{
+    <div id="createbtn">
+        <a asp-action="AddTest" class="btn btn-success">Create +</a>
+    </div>
+}
+<hr />
+<div class="row">
     @if (TempData["DeleteSuccessMessage"] != null)
     {
         <div class="alert alert-success" id="delete-success-alert">
@@ -18,30 +31,43 @@
         </div>
     }
 
-    <ul>
-        @foreach (var tests in Model.GroupBy(t => t.Name))
-        {
-            <li class="name">
-                Name: @tests.Key
-                <ul>
-                    @foreach (var item in tests)
-                    {
-                        <li class="engineer">
-                            Part: @item.PartName <br />
-                            Start: @item.StartingTime <br />
-                            End: @item.EndingTime <br />
-                            Added by -@item.Driver.FirstName @item.Driver.LastName
-                            @if (item.DriverId == UserManager.GetUserId(User))
-                            {
-                                <a href="/Test/DeleteTest?uid=@item.Uid" class="btn btn-danger">Delete</a>
-                            }
-                        </li>
-                    }
-                </ul>
-            </li>
-        }
 
-    </ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Test name</th>
+                <th scope="col">Part name</th>
+                <th scope="col">Starting time</th>
+                <th scope="col">Ending time</th>
+                <th scope="col">Added by</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tests in Model.GroupBy(t => t.Name))
+            {
+
+                @foreach (var item in tests)
+                {
+                    count++;
+                    <tr>
+                        <th scope="row">@count</th>
+                        <td>@item.Name</td>
+                        <td>@item.PartName</td>
+                        <td>@item.StartingTime</td>
+                        <td>@item.EndingTime</td>
+                        <td>@item.Driver.FirstName @item.Driver.LastName</td>
+                        @if (item.DriverId == UserManager.GetUserId(User))
+                        {
+                            <td><a href="/Test/DeleteTest?uid=@item.Uid" class="btn btn-danger">Delete</a></td>
+                        }
+                    </tr>
+                }
+
+            }
+        </tbody>
+    </table>
 </div>
 
 <script>

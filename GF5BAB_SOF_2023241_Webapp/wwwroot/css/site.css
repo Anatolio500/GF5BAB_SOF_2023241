@@ -79,8 +79,12 @@ ul {
     }
 }
 
-#AddMarginDiv {
+#addmargindiv {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+#createbtn {
+    text-align: right;
 }
 

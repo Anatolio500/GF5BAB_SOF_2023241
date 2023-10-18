@@ -3,8 +3,17 @@
 @inject SignInManager<SiteUser> SignInManager
 @inject UserManager<SiteUser> UserManager
 
+<h4>Meeting</h4>
+@if ((await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "TeamPrincipal"))
+ || (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin")))
+{
+    <div id="createbtn">
+        <a asp-action="AddMeeting" class="btn btn-success">Create +</a>
+    </div>
+}
+<hr />
 
-<div>
+<div class="row">
     @if (TempData["DeleteSuccessMessage"] != null)
     {
         <div class="alert alert-success" id="delete-success-alert">
