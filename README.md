@@ -65,7 +65,7 @@ teljesülésekor a felhasználók értesítésére - ✅
 - időzített feladatot is tartalmaz Azure Functions vagy valamilyen alternatív 
 megoldással (pl. crontab). pl: akciók beállítása pontban éjfélkor
 
-- használ social login providert is a belépéshez
+- használ social login providert is a belépéshez - ✅
   
 - profilkép kezelést tartalmaz, social login provider esetén letölti onnan a képet
   
