@@ -38,7 +38,7 @@ ul {
     list-style-type: none;
 }
 
-
+// Users table
 .table-with-header-styling {
     display: flex;
     justify-content: center;
@@ -61,4 +61,20 @@ ul {
         padding: 10px;
         border: 1px solid #000; 
     }
+
+.meetinggrid {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 30px 10px;
+}
+
+@media screen and (max-width: 600px) {
+    .meetinggrid {
+        grid-template-columns: auto;
+    }
+
+    .meetinggrid {
+        width: 100vw;
+    }
+}
 
