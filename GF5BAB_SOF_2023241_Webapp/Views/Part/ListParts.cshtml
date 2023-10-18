@@ -3,6 +3,15 @@
 @inject SignInManager<SiteUser> SignInManager
 @inject UserManager<SiteUser> UserManager
 
+<h4>Meeting</h4>
+@if ((await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Engineer"))
+ || (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin")))
+{
+    <div id="createbtn">
+        <a asp-action="AddPart" class="btn btn-success">Create +</a>
+    </div>
+}
+<hr />
 <div>
     @if (TempData["DeleteSuccessMessage"] != null)
     {
@@ -17,36 +26,43 @@
             @TempData["SuccessMessage"]
         </div>
     }
-    <ul>
         @foreach (var parts in Model.GroupBy(t => t.Name))
         {
-            <li class="name">
+            <ul id="name" >
                 Item Name: @parts.Key
-                <ul>
+                <li>
+                <div id=addmargindiv class="row row-cols-1 row-cols-md-4 g-4">
                     @foreach (var item in parts)
-                    {
-                        <li class="engineer">
-                            Serial Number: @item.SerialNumber -
-                            @if (item.Engineer.ContentType != null)
-                            {
-                                <img src="@Url.Action("GetImage", "Home", new {userid = item.EngineerId})" />
-                            }
-                            else
-                            {
-                                <img src="~/pictures/default_profile_picture.png" />
-                            }
-                            @item.Engineer.FirstName @item.Engineer.LastName
-                            @if (item.EngineerId == UserManager.GetUserId(User))
-                            {
-                                <a href="/Part/DeletePart?uid=@item.Uid" class="btn btn-danger">Delete</a>
-                            }
-                        </li>
-                    }
-                </ul>
-            </li>
+                        {
+                        
+                            <div class="col">
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Serial number: @item.SerialNumber</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">
+                                            @if (item.Engineer.ContentType != null)
+                                            {
+                                                <img src="@Url.Action("GetImage", "Home", new {userid = item.EngineerId})" />
+                                            }
+                                            else
+                                            {
+                                                <img src="~/pictures/default_profile_picture.png" />
+                                            }
+                                            @item.Engineer.FirstName @item.Engineer.LastName
+                                        </h6>
+                                        @if (item.EngineerId == UserManager.GetUserId(User))
+                                        {
+                                            <a href="/Part/DeletePart?uid=@item.Uid" class="btn btn-danger">Delete</a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                
+                        }
+                        </div>
+                </li>
+            </ul>
         }
-
-    </ul>
 </div>
 
 

@@ -23,7 +23,7 @@ img {
     border-radius: 50px;
 }
 
-.name {
+#name {
     font-size: 1.3em;
     margin: 10px;
     border-bottom: 1px solid black;
@@ -37,6 +37,7 @@ img {
 ul {
     list-style-type: none;
 }
+
 
 // Users table
 .table-with-header-styling {
