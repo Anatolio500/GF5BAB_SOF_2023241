@@ -45,11 +45,8 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var tests in Model.GroupBy(t => t.Name))
+            @foreach (var item in Model)
             {
-
-                @foreach (var item in tests)
-                {
                     count++;
                     <tr>
                         <th scope="row">@count</th>
@@ -63,8 +60,6 @@
                             <td><a href="/Test/DeleteTest?uid=@item.Uid" class="btn btn-danger">Delete</a></td>
                         }
                     </tr>
-                }
-
             }
         </tbody>
     </table>

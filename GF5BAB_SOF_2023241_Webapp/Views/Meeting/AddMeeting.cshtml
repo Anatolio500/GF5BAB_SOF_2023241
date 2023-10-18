@@ -3,6 +3,12 @@
 <h4>Meeting</h4>
 <hr />
 <div class="row">
+    @if (TempData["WarningMessage"] != null)
+    {
+        <div class="alert alert-warning" id="warning-alert">
+            @TempData["WarningMessage"]
+        </div>
+    }
     <div class="col-md-4">
         <form asp-action="AddMeeting">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -36,3 +42,17 @@
 <div id="addmargindiv">
     <a asp-action="ListMeetings" class="btn btn-danger">Back to List</a>
 </div>
+
+<script>
+    function hideAlert() {
+        $('#warning-alert').alert('close');
+        $.ajax({
+            url: '/Meeting/ResetWarningMessage',
+            method: 'POST',
+            success: function () {
+            }
+        });
+    }
+
+    setTimeout(hideAlert, 5000);
+</script>

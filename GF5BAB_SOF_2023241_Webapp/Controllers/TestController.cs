@@ -48,10 +48,14 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             {
                 _db.Tests.Add(test);
                 _db.SaveChanges();
+                TempData["SuccessMessage"] = "Item created successfully!";
+                return RedirectToAction(nameof(ListTests));
             }
-
-            TempData["SuccessMessage"] = "Item created successfully!";
-            return RedirectToAction(nameof(ListTests));
+            else
+            {
+                TempData["WarningMessage"] = "Item already exist!";
+                return RedirectToAction(nameof(AddTest));
+            }
         }
 
         [Authorize(Roles = "Driver,Admin")]
@@ -78,6 +82,13 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         public IActionResult ResetDeleteSuccessMessage()
         {
             TempData["DeleteSuccessMessage"] = null;
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult ResetWarningMessage()
+        {
+            TempData["WarningMessage"] = null;
             return Ok();
         }
     }
