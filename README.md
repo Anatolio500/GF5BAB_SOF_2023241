@@ -38,7 +38,7 @@ domain, azure-os is megfelelő)
 
 - tartalmaz a template-ben biztosítotton felül valamilyen alapvető formázásokat CSS-el (saját vagy library) - ✅
 
-- validációkat tartalmaz mind kliens – mind szerveroldalon - ? (Szerepkör validáció beszámít e)
+- validációkat tartalmaz mind kliens – mind szerveroldalon
 
 - a controller rétegtől elválasztott logic réteget tartalmaz (de ez egybeolvadhat a 
 repository réteggel is)
@@ -70,12 +70,12 @@ megoldással (pl. crontab). pl: akciók beállítása pontban éjfélkor
 - profilkép kezelést tartalmaz, social login provider esetén letölti onnan a képet
   
 - használ valamilyen külső CSS library-t (pl. bootstrap) és az oldal felépítése során 
-legalább 3 különböző komponenst vett onnan igénybe
+legalább 3 különböző komponenst vett onnan igénybe - ✅
 
 - a logic rétegben használ valamilyen tanult tervezési mintát 3p/pattern
   
 - valamelyik view-ban használ önállóan írt JS kódot (pl. egy űrlapelemhez 
-autocomplete szerveroldalról letöltött adatokkal)
+autocomplete szerveroldalról letöltött adatokkal) - ✅
 
 - ModelBinderbe szervezi a modellek legyártását a form adatokból
   
