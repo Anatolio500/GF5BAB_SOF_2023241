@@ -19,9 +19,10 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             _roleManager = roleManager;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-            return View();
+            return View("../Meeting/ListMeetings", _db.Meetings);
         }
 
         [Authorize(Roles = "Driver,Engineer,Teamprincipal,Admin")]

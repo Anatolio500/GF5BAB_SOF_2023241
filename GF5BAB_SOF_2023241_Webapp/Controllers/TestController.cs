@@ -20,9 +20,10 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             _roleManager = roleManager;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-            return View();
+            return View("../Test/ListTests", _db.Tests);
         }
 
         [Authorize(Roles = "Driver,Teamprincipal,Admin")]

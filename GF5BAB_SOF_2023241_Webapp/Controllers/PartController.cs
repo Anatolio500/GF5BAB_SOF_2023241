@@ -19,9 +19,10 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             _roleManager = roleManager;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-            return View();
+            return View("../Part/ListParts", _db.Parts);
         }
 
         [Authorize(Roles = "Engineer,Teamprincipal,Admin")]
