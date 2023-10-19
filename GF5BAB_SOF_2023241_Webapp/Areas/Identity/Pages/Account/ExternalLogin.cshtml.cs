@@ -158,7 +158,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
                         LastName = info.Principal.FindFirstValue(ClaimTypes.GivenName)
                     };
 
-                    /*if (info.ProviderDisplayName == "Facebook")
+                    if (info.ProviderDisplayName == "Facebook")
                     {
                         var client = new WebClient();
                         var postValues = new NameValueCollection
@@ -167,15 +167,15 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
                             { "client_secret", "61252d640f38fc0df806d8b5c7df182f" }
                         };
 
-                        var responseBytes = client.UploadValues("https://graph.facebook.com/oauth/access_token", "POST", postValues);
-                        var responseString = Encoding.Default.GetString(responseBytes);
-                        var token = JsonConvert.DeserializeObject<TokenModel>(responseString);
+                        if (info.ProviderDisplayName == "Facebook")
+                        {
+                            var access_token_json = new WebClient().DownloadString("https://graph.facebook.com/oauth/access_token?client_id=1021949482474546&client_secret=ab9c8840dd297d0af2183a8c3c508734&grant_type=client_credentials");
+                            var token = JsonConvert.DeserializeObject<TokenModel>(access_token_json);
+                            Input.PictureUrl = $"https://graph.facebook.com/{id}/picture?type=large&access_token={token.access_token}";
+                        }
+                        //Microsoftos rész
                         
-                        var access_token_json = new WebClient().DownloadString("https://graph.facebook.com/oauth/access_token?client_id=432880205364301&client_secret=057aabcf79ef365533cdab4cae0f3112&grant_type=client_credentials");
-                        var token = JsonConvert.DeserializeObject<TokenModel>(access_token_json);
-
-                        Input.PictureUrl = $"https://graph.facebook.com/{id}/picture?type=large&access_token={token.access_token}";
-                    }*/
+                    }
                 }
                 return Page();
             }
@@ -198,13 +198,15 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
 
-                /*if (info.ProviderDisplayName == "Facebook")
+                //Facebook picture download
+                if (info.ProviderDisplayName == "Facebook")
                 {
                     var wc = new WebClient();
                     user.Data = wc.DownloadData(Input.PictureUrl);
                     user.ContentType = wc.ResponseHeaders["Content-Type"];
                     user.EmailConfirmed = true;
-                }*/
+                }
+                //ide kell a Microsoft képletöltés
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
