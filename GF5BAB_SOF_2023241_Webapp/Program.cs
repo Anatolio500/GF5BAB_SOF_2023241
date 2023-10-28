@@ -33,7 +33,14 @@ builder.Services.AddAuthentication()
     {
         opt.AppId = "1021949482474546";
         opt.AppSecret = "ab9c8840dd297d0af2183a8c3c508734";
-    });
+    })
+    .AddMicrosoftAccount(opt =>
+    {
+        opt.ClientId = "26596dcd-3671-41e7-a08f-5059c5c27b2a";
+        opt.ClientSecret = "kF28Q~mjMLpaHS22SUAcYq6PvGpndj78whM88b8c";
+        opt.SaveTokens = true;
+    }
+    );
 
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
