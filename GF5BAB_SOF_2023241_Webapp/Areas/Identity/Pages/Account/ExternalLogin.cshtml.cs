@@ -21,6 +21,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Net;
 using System.Collections.Specialized;
+using Microsoft.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
 {
@@ -86,6 +88,14 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
             public string token_type { get; set; }
         }
 
+        public class MsMetaData
+        {
+            [JsonProperty("@odata.mediaContentType")]
+            public string odatamediaContentType { get; set; }
+            public string id { get; set; }
+            public int width { get; set; }
+            public int height { get; set; }
+        }
         public class InputModel
         {
             /// <summary>
@@ -105,6 +115,23 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             public string PictureUrl { get; set; }
+
+            public byte[] PictureData {  get; set; }
+
+            public string PictureContentType { get; set; }
+
+            public string BytesAsString
+            {
+                get
+                {
+                    if (PictureData != null)
+                    {
+                        return Convert.ToBase64String(PictureData);
+                    }
+                    else { return ""; }
+                }
+            }
+
         }
         
         public IActionResult OnGet() => RedirectToPage("./Login");
@@ -174,7 +201,15 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
                             Input.PictureUrl = $"https://graph.facebook.com/{id}/picture?type=large&access_token={token.access_token}";
                         }
                         //Microsoftos rész
-                        
+                        else if (info.ProviderDisplayName == "Microsoft")
+                        {
+                            var wc = new WebClient();
+                            wc.Headers.Add("Authorization", "Bearer " + info.AuthenticationTokens.FirstOrDefault().Value);
+                            Input.PictureData = wc.DownloadData($"https://graph.microsoft.com/beta/users/{id}/photo/$value");
+                            var metadata = wc.DownloadString($"https://graph.microsoft.com/beta/users/{id}/photo/");
+                            var mdjson = JsonConvert.DeserializeObject<MsMetaData>(metadata);
+                            Input.PictureContentType = mdjson.odatamediaContentType;
+                        }
                     }
                 }
                 return Page();
@@ -204,6 +239,12 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
                     var wc = new WebClient();
                     user.Data = wc.DownloadData(Input.PictureUrl);
                     user.ContentType = wc.ResponseHeaders["Content-Type"];
+                    user.EmailConfirmed = true;
+                }
+                else if (info.ProviderDisplayName == "Microsoft")
+                {
+                    user.Data = Input.PictureData;
+                    user.ContentType = Input.PictureContentType;
                     user.EmailConfirmed = true;
                 }
                 //ide kell a Microsoft képletöltés
