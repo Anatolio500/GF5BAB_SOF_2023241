@@ -23,6 +23,7 @@ using System.Net;
 using System.Collections.Specialized;
 using Microsoft.CodeAnalysis;
 using System.Text.Json.Serialization;
+using System.Net.Http;
 
 namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
 {
@@ -128,7 +129,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
                     {
                         return Convert.ToBase64String(PictureData);
                     }
-                    else { return ""; }
+                    else return "";
                 }
             }
 
@@ -209,15 +210,15 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
                         }
                     }
                     //Microsoftos rész
-                    //else if (info.ProviderDisplayName == "Microsoft")
-                    //{
-                    //    var wc = new WebClient();
-                    //    wc.Headers.Add("Authorization", "Bearer " + info.AuthenticationTokens.FirstOrDefault().Value);
-                    //    Input.PictureData = wc.DownloadData($"https://graph.microsoft.com/v1.0/users/{id}/photo/$value");
-                    //    var metadata = wc.DownloadString($"https://graph.microsoft.com/v1.0/users/{id}/photo/");
-                    //    var mdjson = JsonConvert.DeserializeObject<MsMetaData>(metadata);
-                    //    Input.PictureContentType = mdjson.odatamediaContentType;
-                    //}
+                    else if (info.ProviderDisplayName == "Microsoft")
+                    {
+                        var wc = new WebClient();
+                        wc.Headers.Add("Authorization", "Bearer " + info.AuthenticationTokens.FirstOrDefault().Value);
+                        Input.PictureData = wc.DownloadData($"https://graph.microsoft.com/v1.0/users/{id}/photo/$value");
+                        var metadata = wc.DownloadString($"https://graph.microsoft.com/v1.0/users/{id}/photo/");
+                        var mdjson = JsonConvert.DeserializeObject<MsMetaData>(metadata);
+                        Input.PictureContentType = mdjson.odatamediaContentType;
+                    }
                 }
                 return Page();
             }
