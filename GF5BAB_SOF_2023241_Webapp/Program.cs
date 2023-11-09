@@ -37,7 +37,7 @@ builder.Services.AddAuthentication()
     .AddMicrosoftAccount(opt =>
     {
         opt.ClientId = "26596dcd-3671-41e7-a08f-5059c5c27b2a";
-        opt.ClientSecret = "kF28Q~mjMLpaHS22SUAcYq6PvGpndj78whM88b8c";
+        opt.ClientSecret = "iR18Q~E_ugIoFyQTUa-PRYwM6xosQjIeeI1BjcXk";
         opt.SaveTokens = true;
     }
     );

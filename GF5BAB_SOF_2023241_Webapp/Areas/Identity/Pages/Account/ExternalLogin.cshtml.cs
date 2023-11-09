@@ -184,14 +184,21 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
                         FirstName = info.Principal.FindFirstValue(ClaimTypes.Surname),
                         LastName = info.Principal.FindFirstValue(ClaimTypes.GivenName)
                     };
+                    if (Input.FirstName == null)
+                    {
+                        var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+                        string[] names = name.Split(' ');
+                        Input.FirstName = names[1];
+                        Input.LastName = names[0];
+                    }
 
                     if (info.ProviderDisplayName == "Facebook")
                     {
                         var client = new WebClient();
                         var postValues = new NameValueCollection
                         {
-                            { "client_id", "201877619599899" },
-                            { "client_secret", "61252d640f38fc0df806d8b5c7df182f" }
+                           { "client_id", "201877619599899" },
+                           { "client_secret", "61252d640f38fc0df806d8b5c7df182f" }
                         };
 
                         if (info.ProviderDisplayName == "Facebook")
@@ -200,17 +207,17 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
                             var token = JsonConvert.DeserializeObject<TokenModel>(access_token_json);
                             Input.PictureUrl = $"https://graph.facebook.com/{id}/picture?type=large&access_token={token.access_token}";
                         }
-                        //Microsoftos rész
-                        else if (info.ProviderDisplayName == "Microsoft")
-                        {
-                            var wc = new WebClient();
-                            wc.Headers.Add("Authorization", "Bearer " + info.AuthenticationTokens.FirstOrDefault().Value);
-                            Input.PictureData = wc.DownloadData($"https://graph.microsoft.com/beta/users/{id}/photo/$value");
-                            var metadata = wc.DownloadString($"https://graph.microsoft.com/beta/users/{id}/photo/");
-                            var mdjson = JsonConvert.DeserializeObject<MsMetaData>(metadata);
-                            Input.PictureContentType = mdjson.odatamediaContentType;
-                        }
                     }
+                    //Microsoftos rész
+                    //else if (info.ProviderDisplayName == "Microsoft")
+                    //{
+                    //    var wc = new WebClient();
+                    //    wc.Headers.Add("Authorization", "Bearer " + info.AuthenticationTokens.FirstOrDefault().Value);
+                    //    Input.PictureData = wc.DownloadData($"https://graph.microsoft.com/v1.0/users/{id}/photo/$value");
+                    //    var metadata = wc.DownloadString($"https://graph.microsoft.com/v1.0/users/{id}/photo/");
+                    //    var mdjson = JsonConvert.DeserializeObject<MsMetaData>(metadata);
+                    //    Input.PictureContentType = mdjson.odatamediaContentType;
+                    //}
                 }
                 return Page();
             }
