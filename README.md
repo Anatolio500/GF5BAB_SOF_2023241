@@ -41,7 +41,7 @@ domain, azure-os is megfelelő)
 - validációkat tartalmaz mind kliens – mind szerveroldalon
 
 - a controller rétegtől elválasztott logic réteget tartalmaz (de ez egybeolvadhat a 
-repository réteggel is)
+repository réteggel is) ✅
 
 - githubon készült el - ✅ 
 
@@ -67,7 +67,7 @@ megoldással (pl. crontab). pl: akciók beállítása pontban éjfélkor
 
 - használ social login providert is a belépéshez - ✅
   
-- profilkép kezelést tartalmaz, social login provider esetén letölti onnan a képet
+- profilkép kezelést tartalmaz, social login provider esetén letölti onnan a képet ✅
   
 - használ valamilyen külső CSS library-t (pl. bootstrap) és az oldal felépítése során 
 legalább 3 különböző komponenst vett onnan igénybe - ✅
