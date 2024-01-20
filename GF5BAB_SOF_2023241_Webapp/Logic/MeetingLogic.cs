@@ -1,7 +1,7 @@
 ﻿using GF5BAB_SOF_2023241_Webapp.Data;
 using GF5BAB_SOF_2023241_Webapp.Models;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GF5BAB_SOF_2023241_Webapp.Logic
 {
@@ -11,7 +11,6 @@ namespace GF5BAB_SOF_2023241_Webapp.Logic
         private readonly UserManager<SiteUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public ClaimsPrincipal User { get; private set; }
 
         public MeetingLogic(ApplicationDbContext db, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -30,17 +29,17 @@ namespace GF5BAB_SOF_2023241_Webapp.Logic
             return _db.Meetings.Any(t => t.Name == meeting.Name && t.TeamPrincipal == meeting.TeamPrincipal);
         }
 
-        public void AddMeeting(Meeting meeting)
+        public void AddMeeting(Meeting meeting, ControllerBase controller)
         {
-            meeting.TeamPrincipalId = _userManager.GetUserId(this.User);
+            meeting.TeamPrincipalId = _userManager.GetUserId(controller.User);
             _db.Meetings.Add(meeting);
             _db.SaveChanges();
         }
 
-        public void DeleteMeeting (string uid)
+        public void DeleteMeeting (string uid, ControllerBase controller)
         {
             var item = _db.Meetings.FirstOrDefault(t => t.Uid == uid);
-            if (item != null && item.TeamPrincipalId == _userManager.GetUserId(this.User));
+            if (item != null && item.TeamPrincipalId == _userManager.GetUserId(controller.User));
             {
                 _db.Meetings.Remove(item);
                 _db.SaveChanges();

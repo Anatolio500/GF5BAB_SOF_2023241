@@ -42,7 +42,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         {
             if (!_meetingLogic.MeetingExists(meeting))
             {
-                _meetingLogic.AddMeeting(meeting);
+                _meetingLogic.AddMeeting(meeting, this);
                 TempData["SuccessMessage"] = "Item created successfully!";
                 return RedirectToAction(nameof(ListMeetings));
             }
@@ -56,7 +56,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         [Authorize(Roles = "Teamprincipal,Admin")]
         public IActionResult DeleteMeeting(string uid)
         {
-            _meetingLogic.DeleteMeeting(uid);
+            _meetingLogic.DeleteMeeting(uid, this);
             TempData["DeleteSuccessMessage"] = "Item deleted successfully!";
             return RedirectToAction(nameof(ListMeetings));
         }
