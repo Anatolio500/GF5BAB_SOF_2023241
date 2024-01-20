@@ -28,11 +28,6 @@ namespace GF5BAB_SOF_2023241_Webapp.Logic
             return _db.Parts.Any(t => t.SerialNumber == part.SerialNumber && t.EngineerId == part.EngineerId);
         }
 
-        public bool PartExistsUid(string uid)
-        {
-            return _db.Parts.Any(t => t.Uid == uid);
-        }
-
         public async void AddPart(Part part, ControllerBase controller)
         {
             part.EngineerId = _userManager.GetUserId(controller.User);
@@ -40,11 +35,14 @@ namespace GF5BAB_SOF_2023241_Webapp.Logic
             _db.SaveChanges();
         }
 
-        public async void DeletePart(string uid)
+        public async void DeletePart(string uid, ControllerBase controller)
         {
             var item = _db.Parts.FirstOrDefault(t => t.Uid == uid);
-            _db.Parts.Remove(item);
-            _db.SaveChanges();
+            if (item != null && item.EngineerId == _userManager.GetUserId(controller.User))
+            {
+                _db.Parts.Remove(item);
+                _db.SaveChanges();
+            }
         }
     }
 }

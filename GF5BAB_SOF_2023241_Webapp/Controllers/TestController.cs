@@ -57,10 +57,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         [Authorize(Roles = "Driver,Admin")]
         public IActionResult DeleteTest(string uid)
         {
-            if (_testLogic.TestExistsUid(uid,this))
-            {
-                _testLogic.DeleteTest(uid);
-            }
+            _testLogic.DeleteTest(uid, this);
             TempData["DeleteSuccessMessage"] = "Item deleted successfully!";
             return RedirectToAction(nameof(ListTests));
         }
