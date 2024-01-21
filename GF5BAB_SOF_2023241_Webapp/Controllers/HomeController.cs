@@ -131,33 +131,69 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveEngineer(string uid)
         {
-            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
-            await _userManager.RemoveFromRoleAsync(user, "Engineer");
-            return RedirectToAction(nameof(Users));
+            //var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            //await _userManager.RemoveFromRoleAsync(user, "Engineer");
+            //return RedirectToAction(nameof(Users));
+            var success = await _homeLogic.RemoveRole(uid, "Engineer");
+            if (success)
+            {
+                return RedirectToAction(nameof(Users));
+            }
+            else
+            {
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GrantEngineer(string uid)
         {
-            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
-            await _userManager.AddToRoleAsync(user, "Engineer");
-            return RedirectToAction(nameof(Users));
+            //var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            //await _userManager.AddToRoleAsync(user, "Engineer");
+            //return RedirectToAction(nameof(Users));
+            var success = await _homeLogic.GrantRole(uid, "Engineer");
+            if (success)
+            {
+                return RedirectToAction(nameof(Users));
+            }
+            else
+            {
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveTeamprincipal(string uid)
         {
-            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
-            await _userManager.RemoveFromRoleAsync(user, "Teamprincipal");
-            return RedirectToAction(nameof(Users));
+            //var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            //await _userManager.RemoveFromRoleAsync(user, "Teamprincipal");
+            //return RedirectToAction(nameof(Users));
+            var success = await _homeLogic.RemoveRole(uid, "Teamprincipal");
+            if (success)
+            {
+                return RedirectToAction(nameof(Users));
+            }
+            else
+            {
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GrantTeamprincipal(string uid)
         {
-            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
-            await _userManager.AddToRoleAsync(user, "Teamprincipal");
-            return RedirectToAction(nameof(Users));
+            //var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            //await _userManager.AddToRoleAsync(user, "Teamprincipal");
+            //return RedirectToAction(nameof(Users));
+            var success = await _homeLogic.GrantRole(uid, "Teamprincipal");
+            if (success)
+            {
+                return RedirectToAction(nameof(Users));
+            }
+            else
+            {
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
         }
 
         [Authorize]
@@ -170,8 +206,10 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
 
         public async Task<IActionResult> GetImage(string userid)
         {
-            var user = _userManager.Users.FirstOrDefault(t => t.Id == userid);
-            return new FileContentResult(user.Data, user.ContentType);
+            //var user = _userManager.Users.FirstOrDefault(t => t.Id == userid);
+            //return new FileContentResult(user.Data, user.ContentType);
+            var result = await _homeLogic.GetImage(userid);
+            return result;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
