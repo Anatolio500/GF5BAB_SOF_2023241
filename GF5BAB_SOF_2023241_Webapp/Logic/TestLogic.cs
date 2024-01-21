@@ -28,6 +28,11 @@ namespace GF5BAB_SOF_2023241_Webapp.Logic
             return _db.Tests.Any(t => t.Name == test.Name && t.DriverId == test.DriverId);
         }
 
+        public bool TestExistsUid(string uid, ControllerBase controller)
+        {
+            return _db.Tests.Any(t => t.Uid == uid && t.DriverId == _userManager.GetUserId(controller.User));
+        }
+
         public void AddTest(Test test, ControllerBase controller)
         {
             test.DriverId = _userManager.GetUserId(controller.User);
@@ -35,14 +40,11 @@ namespace GF5BAB_SOF_2023241_Webapp.Logic
             _db.SaveChanges();
         }
 
-        public void DeleteTest(string uid, ControllerBase controller)
+        public void DeleteTest(string uid)
         {
             var item = _db.Tests.FirstOrDefault(t => t.Uid == uid);
-            if (item != null && item.DriverId == _userManager.GetUserId(controller.User))
-            {
-                _db.Tests.Remove(item);
-                _db.SaveChanges();
-            }
+            _db.Tests.Remove(item);
+            _db.SaveChanges();
         }
     }
 }

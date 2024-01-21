@@ -54,7 +54,10 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         [Authorize(Roles = "Engineer,Admin")]
         public IActionResult DeletePart(string uid)
         {
-            _partLogic.DeletePart(uid, this);
+            if (_partLogic.PartExistsUid(uid))
+            {
+                _partLogic.DeletePart(uid);
+            }
             TempData["DeleteSuccessMessage"] = "Item deleted successfully!";
             return RedirectToAction(nameof(ListParts));
         }
