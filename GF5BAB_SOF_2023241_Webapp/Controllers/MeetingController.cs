@@ -9,18 +9,10 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
 {
     public class MeetingController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        private readonly UserManager<SiteUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-
         private readonly MeetingLogic _meetingLogic;
 
-        public MeetingController(ApplicationDbContext db, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, MeetingLogic meetingLogic)
+        public MeetingController(MeetingLogic meetingLogic)
         {
-            _db = db;
-            _userManager = userManager;
-            _roleManager = roleManager;
-
             _meetingLogic = meetingLogic;
         }
 
@@ -46,7 +38,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         [Authorize(Roles = "Teamprincipal,Admin")]
         public async Task<IActionResult> AddMeeting(Meeting meeting)
         {
-            meeting.TeamPrincipalId = _userManager.GetUserId(this.User);
+            /*meeting.TeamPrincipalId = _userManager.GetUserId(this.User);
             var old = _db.Meetings.FirstOrDefault(t => t.Name == meeting.Name && t.TeamPrincipalId == meeting.TeamPrincipalId);
             if (old == null)
             {
@@ -60,20 +52,45 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
 
                 TempData["WarningMessage"] = "Item already exist!";
                 return RedirectToAction(nameof(AddMeeting));
+            }*/
+
+            var succes = await _meetingLogic.AddMeeting(meeting, this);
+            if (succes)
+            {
+                TempData["SuccessMessage"] = "Meeting created successfully!";
+                return RedirectToAction(nameof(ListMeetings));
+            }
+            else
+            {
+                TempData["WarningMessage"] = "Meeting already exist!";
+                return RedirectToAction(nameof(AddMeeting));
             }
         }
 
         [Authorize(Roles = "Teamprincipal,Admin")]
-        public IActionResult DeleteMeeting(string uid)
+        public async Task<IActionResult> DeleteMeeting(string uid)
         {
-            var item = _db.Meetings.FirstOrDefault(t => t.Uid == uid);
+            /*var item = _db.Meetings.FirstOrDefault(t => t.Uid == uid);
             if (item != null && item.TeamPrincipalId == _userManager.GetUserId(this.User))
             {
                 _db.Meetings.Remove(item);
                 _db.SaveChanges();
             }
             TempData["DeleteSuccessMessage"] = "Item deleted successfully!";
-            return RedirectToAction(nameof(ListMeetings));
+            return RedirectToAction(nameof(ListMeetings));*/
+
+            var succes = await _meetingLogic.DeleteMeeting(uid, this);
+            if (succes)
+            {
+                TempData["DeleteSuccessMessage"] = "Item deleted successfully!";
+                return RedirectToAction(nameof(ListMeetings));
+            }
+            else
+            {
+                TempData["DeleteSuccessMessage"] = "Item deleted unsuccessfully!";
+                return RedirectToAction(nameof(ListMeetings));
+            }
+
         }
 
         [HttpPost]
