@@ -40,7 +40,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Logic
         public void DeleteMeeting (string uid)
         {
             var item = _db.Meetings.FirstOrDefault(t => t.Uid == uid);
-            if (item != null && item.TeamPrincipalId == _userManager.GetUserId(this.User));
+            if (item != null && item.TeamPrincipalId == _userManager.GetUserId(this.User);
             {
                 _db.Meetings.Remove(item);
                 _db.SaveChanges();
