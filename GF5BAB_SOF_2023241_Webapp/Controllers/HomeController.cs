@@ -15,12 +15,18 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger<HomeController> _logger;
 
+        private readonly ApplicationDbContext _db;
+        private readonly UserManager<SiteUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
         private readonly HomeLogic _homeLogic;
 
-        public HomeController(ILogger<HomeController> logger, IEmailSender emailSender, HomeLogic homelogic)
+        public HomeController(UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<HomeController> logger, ApplicationDbContext db, IEmailSender emailSender, HomeLogic homelogic)
         {
-
+            _userManager = userManager;
+            _roleManager = roleManager;
             _logger = logger;
+            _db = db;
             _emailSender = emailSender;
 
             _homeLogic = homelogic;
@@ -102,7 +108,8 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         [Authorize]
         public async Task<IActionResult> Privacy()
         {
-            _homeLogic.Privacy(this);
+            var principal = this.User;
+            var user = await _userManager.GetUserAsync(principal);
             return View();
         }
 
