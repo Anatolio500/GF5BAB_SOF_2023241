@@ -1,4 +1,5 @@
 ﻿using GF5BAB_SOF_2023241_Webapp.Data;
+using GF5BAB_SOF_2023241_Webapp.Logic;
 using GF5BAB_SOF_2023241_Webapp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,23 +13,27 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         private readonly UserManager<SiteUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public MeetingController(ApplicationDbContext db, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager)
+        private readonly MeetingLogic _meetingLogic;
+
+        public MeetingController(ApplicationDbContext db, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, MeetingLogic meetingLogic)
         {
             _db = db;
             _userManager = userManager;
             _roleManager = roleManager;
+
+            _meetingLogic = meetingLogic;
         }
 
         [Authorize]
         public IActionResult Index()
         {
-            return View("../Meeting/ListMeetings", _db.Meetings);
+            return View("../Meeting/ListMeetings", _meetingLogic.GetMeetings());
         }
 
         [Authorize(Roles = "Driver,Engineer,Teamprincipal,Admin")]
         public IActionResult ListMeetings()
         {
-            return View(_db.Meetings);
+            return View(_meetingLogic.GetMeetings());
         }
 
         [Authorize(Roles = "Teamprincipal,Admin")]

@@ -49,6 +49,8 @@ builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddScoped<HomeController>();
 builder.Services.AddScoped<HomeLogic>();
+builder.Services.AddScoped<MeetingController>();
+builder.Services.AddScoped<MeetingLogic>();
 
 builder.Services.AddControllersWithViews();
 
