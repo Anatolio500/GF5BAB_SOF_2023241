@@ -16,36 +16,18 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger<HomeController> _logger;
 
-        private readonly ApplicationDbContext _db;
-        private readonly UserManager<SiteUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-
         private readonly HomeLogic _homeLogic;
 
-        public HomeController(UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<HomeController> logger, ApplicationDbContext db, IEmailSender emailSender, HomeLogic homeLogic)
+        public HomeController(IEmailSender emailSender, ILogger<HomeController> logger, HomeLogic homeLogic)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _logger = logger;
-            _db = db;
             _emailSender = emailSender;
-
+            _logger = logger;
             _homeLogic = homeLogic;
         }
 
         public async Task<IActionResult> DelegateAdmin()
         {
-            var principal = this.User;
-            var user = await _userManager.GetUserAsync(principal);
-            var role = new IdentityRole()
-            {
-                Name = "Admin"
-            };
-            if (!await _roleManager.RoleExistsAsync("Admin"))
-            {
-                await _roleManager.CreateAsync(role);
-            }
-            await _userManager.AddToRoleAsync(user, "Admin");
+            var success = await _homeLogic.DelegateAdmin(this);
             return RedirectToAction(nameof(Index));
         }
 
@@ -57,7 +39,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Users()
         {
-            return View(_userManager.Users);
+            return View(_homeLogic.GetUsers());
         }
 
         [Authorize(Roles = "Admin")]
@@ -200,7 +182,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         public async Task<IActionResult> Privacy()
         {
             var principal = this.User;
-            var user = await _userManager.GetUserAsync(principal);
+            var user = await _homeLogic.Privacy(this);
             return View();
         }
 

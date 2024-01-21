@@ -1,6 +1,9 @@
 ﻿using GF5BAB_SOF_2023241_Webapp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using System.Collections;
 
 namespace GF5BAB_SOF_2023241_Webapp.Logic
 {
@@ -43,11 +46,33 @@ namespace GF5BAB_SOF_2023241_Webapp.Logic
             return new FileContentResult(user.Data, user.ContentType);
         }
 
-        /*public async Task<IActionResult> Privacy(ControllerBase controller)
+        public async Task<bool> DelegateAdmin(ControllerBase controller)
+        {
+            var principal = controller.User;
+            var user = await _userManager.GetUserAsync(principal);
+            var role = new IdentityRole()
+            {
+                Name = "Admin"
+            };
+            if (!await _roleManager.RoleExistsAsync("Admin"))
+            {
+                await _roleManager.CreateAsync(role);
+            }
+            await _userManager.AddToRoleAsync(user, "Admin");
+            return true;
+        }
+
+        public IEnumerable<SiteUser> GetUsers()
+        {
+            var users =  _userManager.Users;
+            return users;
+        }
+
+        public async Task<SiteUser> Privacy(ControllerBase controller)
         {
             var principal = controller.User;
             var user = await _userManager.GetUserAsync(principal);
             return user;
-        }*/
+        }
     }
 }
