@@ -1,5 +1,4 @@
 ﻿using GF5BAB_SOF_2023241_Webapp.Data;
-using GF5BAB_SOF_2023241_Webapp.Logic;
 using GF5BAB_SOF_2023241_Webapp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
@@ -10,23 +9,27 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
 {
     public class TestController : Controller
     {
-        private readonly TestLogic _testLogic;
+        private readonly ApplicationDbContext _db;
+        private readonly UserManager<SiteUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public TestController(TestLogic testLogic)
+        public TestController(ApplicationDbContext db, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            _testLogic = testLogic;
+            _db = db;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         [Authorize]
         public IActionResult Index()
         {
-            return View("../Test/ListTests", _testLogic.GetTests());
+            return View("../Test/ListTests", _db.Tests);
         }
 
         [Authorize(Roles = "Driver,Teamprincipal,Admin")]
         public IActionResult ListTests()
         {
-            return View(_testLogic.GetTests());
+            return View(_db.Tests);
         }
 
         [Authorize(Roles = "Driver,Admin")]
@@ -40,10 +43,12 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         [Authorize(Roles = "Driver,Admin")]
         public async Task<IActionResult> AddTest(Test test)
         {
-            
-            if (!_testLogic.TestExists(test))
+            test.DriverId = _userManager.GetUserId(this.User);
+            var old = _db.Tests.FirstOrDefault(t => t.Name == test.Name && t.DriverId == test.DriverId);
+            if (old == null)
             {
-                _testLogic.AddTest(test, this);
+                _db.Tests.Add(test);
+                _db.SaveChanges();
                 TempData["SuccessMessage"] = "Item created successfully!";
                 return RedirectToAction(nameof(ListTests));
             }
@@ -57,9 +62,11 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         [Authorize(Roles = "Driver,Admin")]
         public IActionResult DeleteTest(string uid)
         {
-            if (_testLogic.TestExistsUid(uid,this))
+            var item = _db.Tests.FirstOrDefault(t => t.Uid == uid);
+            if (item != null && item.DriverId == _userManager.GetUserId(this.User))
             {
-                _testLogic.DeleteTest(uid);
+                _db.Tests.Remove(item);
+                _db.SaveChanges();
             }
             TempData["DeleteSuccessMessage"] = "Item deleted successfully!";
             return RedirectToAction(nameof(ListTests));
