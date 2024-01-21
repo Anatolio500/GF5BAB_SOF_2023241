@@ -51,6 +51,8 @@ builder.Services.AddScoped<HomeController>();
 builder.Services.AddScoped<HomeLogic>();
 builder.Services.AddScoped<MeetingController>();
 builder.Services.AddScoped<MeetingLogic>();
+builder.Services.AddScoped<PartController>();
+builder.Services.AddScoped<PartLogic>();
 
 builder.Services.AddControllersWithViews();
 
