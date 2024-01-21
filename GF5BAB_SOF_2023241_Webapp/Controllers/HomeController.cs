@@ -1,5 +1,4 @@
 ﻿using GF5BAB_SOF_2023241_Webapp.Data;
-using GF5BAB_SOF_2023241_Webapp.Logic;
 using GF5BAB_SOF_2023241_Webapp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,22 +18,28 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         private readonly UserManager<SiteUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        private readonly HomeLogic _homeLogic;
-
-        public HomeController(UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<HomeController> logger, ApplicationDbContext db, IEmailSender emailSender, HomeLogic homelogic)
+        public HomeController(UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<HomeController> logger, ApplicationDbContext db, IEmailSender emailSender)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _logger = logger;
             _db = db;
             _emailSender = emailSender;
-
-            _homeLogic = homelogic;
         }
 
         public async Task<IActionResult> DelegateAdmin()
         {
-            _homeLogic.DelegateAdmin(this);
+            var principal = this.User;
+            var user = await _userManager.GetUserAsync(principal);
+            var role = new IdentityRole()
+            {
+                Name = "Admin"
+            };
+            if (!await _roleManager.RoleExistsAsync("Admin"))
+            {
+                await _roleManager.CreateAsync(role);
+            }
+            await _userManager.AddToRoleAsync(user, "Admin");
             return RedirectToAction(nameof(Index));
         }
 
@@ -46,62 +51,70 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Users()
         {
-            return View(_homeLogic.GetUsersList());
+            return View(_userManager.Users);
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveAdmin(string uid)
         {
-            _homeLogic.RemoveAdmin(uid);
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.RemoveFromRoleAsync(user, "Admin");
             return RedirectToAction(nameof(Users));
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GrantAdmin(string uid)
         {
-            _homeLogic.GrantAdmin(uid);
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.AddToRoleAsync(user, "Admin");
             return RedirectToAction(nameof(Users));
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveDriver(string uid)
         {
-            _homeLogic.RemoveDriver(uid);
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.RemoveFromRoleAsync(user, "Driver");
             return RedirectToAction(nameof(Users));
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GrantDriver(string uid)
         {
-            _homeLogic.GrantDriver(uid);
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.AddToRoleAsync(user, "Driver");
             return RedirectToAction(nameof(Users));
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveEngineer(string uid)
         {
-            _homeLogic.RemoveEngineer(uid);
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.RemoveFromRoleAsync(user, "Engineer");
             return RedirectToAction(nameof(Users));
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GrantEngineer(string uid)
         {
-            _homeLogic.GrantEngineer(uid);
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.AddToRoleAsync(user, "Engineer");
             return RedirectToAction(nameof(Users));
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveTeamprincipal(string uid)
         {
-            _homeLogic.RemoveTeamprincipal(uid);
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.RemoveFromRoleAsync(user, "Teamprincipal");
             return RedirectToAction(nameof(Users));
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GrantTeamprincipal(string uid)
         {
-            _homeLogic.GrantTeamprincipal(uid);
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            await _userManager.AddToRoleAsync(user, "Teamprincipal");
             return RedirectToAction(nameof(Users));
         }
 
@@ -115,7 +128,8 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
 
         public async Task<IActionResult> GetImage(string userid)
         {
-            return await _homeLogic.GetImage(userid);
+            var user = _userManager.Users.FirstOrDefault(t => t.Id == userid);
+            return new FileContentResult(user.Data, user.ContentType);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
