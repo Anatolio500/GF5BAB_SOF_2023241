@@ -1,4 +1,5 @@
 ﻿using GF5BAB_SOF_2023241_Webapp.Data;
+using GF5BAB_SOF_2023241_Webapp.Logic;
 using GF5BAB_SOF_2023241_Webapp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
@@ -9,27 +10,23 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
 {
     public class TestController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        private readonly UserManager<SiteUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly TestLogic _testLogic;
 
-        public TestController(ApplicationDbContext db, UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager)
+        public TestController(TestLogic testLogic)
         {
-            _db = db;
-            _userManager = userManager;
-            _roleManager = roleManager;
+            _testLogic = testLogic;
         }
 
         [Authorize]
         public IActionResult Index()
         {
-            return View("../Test/ListTests", _db.Tests);
+            return View("../Test/ListTests", _testLogic.GetTests());
         }
 
         [Authorize(Roles = "Driver,Teamprincipal,Admin")]
         public IActionResult ListTests()
         {
-            return View(_db.Tests);
+            return View(_testLogic.GetTests());
         }
 
         [Authorize(Roles = "Driver,Admin")]
@@ -43,7 +40,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         [Authorize(Roles = "Driver,Admin")]
         public async Task<IActionResult> AddTest(Test test)
         {
-            test.DriverId = _userManager.GetUserId(this.User);
+            /*test.DriverId = _userManager.GetUserId(this.User);
             var old = _db.Tests.FirstOrDefault(t => t.Name == test.Name && t.DriverId == test.DriverId);
             if (old == null)
             {
@@ -56,20 +53,44 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
             {
                 TempData["WarningMessage"] = "Item already exist!";
                 return RedirectToAction(nameof(AddTest));
+            }*/
+
+            var success = await _testLogic.AddTest(test, this);
+            if (success)
+            {
+                TempData["SuccessMessage"] = "Item created successfully!";
+                return RedirectToAction(nameof(ListTests));
+            }
+            else
+            {
+                TempData["SuccessMessage"] = "Item created unsuccessfully!";
+                return RedirectToAction(nameof(ListTests));
             }
         }
 
         [Authorize(Roles = "Driver,Admin")]
-        public IActionResult DeleteTest(string uid)
+        public async Task<IActionResult> DeleteTest(string uid)
         {
-            var item = _db.Tests.FirstOrDefault(t => t.Uid == uid);
+            /*var item = _db.Tests.FirstOrDefault(t => t.Uid == uid);
             if (item != null && item.DriverId == _userManager.GetUserId(this.User))
             {
                 _db.Tests.Remove(item);
                 _db.SaveChanges();
             }
             TempData["DeleteSuccessMessage"] = "Item deleted successfully!";
-            return RedirectToAction(nameof(ListTests));
+            return RedirectToAction(nameof(ListTests));*/
+
+            var succes = await _testLogic.DeleteTest(uid);
+            if (succes)
+            {
+                TempData["DeleteSuccessMessage"] = "Item deleted successfully!";
+                return RedirectToAction(nameof(ListTests));
+            }
+            else
+            {
+                TempData["DeleteSuccessMessage"] = "Item deleted unsuccessfully!";
+                return RedirectToAction(nameof(ListTests));
+            }
         }
 
         [HttpPost]

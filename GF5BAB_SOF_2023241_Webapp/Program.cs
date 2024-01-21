@@ -1,4 +1,6 @@
+using GF5BAB_SOF_2023241_Webapp.Controllers;
 using GF5BAB_SOF_2023241_Webapp.Data;
+using GF5BAB_SOF_2023241_Webapp.Logic;
 using GF5BAB_SOF_2023241_Webapp.Models;
 using GF5BAB_SOF_2023241_Webapp.Services;
 using Microsoft.AspNetCore.Identity;
@@ -44,6 +46,15 @@ builder.Services.AddAuthentication()
 
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+builder.Services.AddScoped<HomeController>();
+builder.Services.AddScoped<HomeLogic>();
+builder.Services.AddScoped<MeetingController>();
+builder.Services.AddScoped<MeetingLogic>();
+builder.Services.AddScoped<PartController>();
+builder.Services.AddScoped<PartLogic>();
+builder.Services.AddScoped<TestController>();
+builder.Services.AddScoped<TestLogic>();
 
 builder.Services.AddControllersWithViews();
 
