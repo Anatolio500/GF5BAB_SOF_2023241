@@ -53,6 +53,8 @@ builder.Services.AddScoped<MeetingController>();
 builder.Services.AddScoped<MeetingLogic>();
 builder.Services.AddScoped<PartController>();
 builder.Services.AddScoped<PartLogic>();
+builder.Services.AddScoped<TestController>();
+builder.Services.AddScoped<TestLogic>();
 
 builder.Services.AddControllersWithViews();
 
