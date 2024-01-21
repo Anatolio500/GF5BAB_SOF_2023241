@@ -1,6 +1,8 @@
 ﻿using GF5BAB_SOF_2023241_Webapp.Data;
+using GF5BAB_SOF_2023241_Webapp.Logic;
 using GF5BAB_SOF_2023241_Webapp.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -18,13 +20,17 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         private readonly UserManager<SiteUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public HomeController(UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<HomeController> logger, ApplicationDbContext db, IEmailSender emailSender)
+        private readonly HomeLogic _homeLogic;
+
+        public HomeController(UserManager<SiteUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<HomeController> logger, ApplicationDbContext db, IEmailSender emailSender, HomeLogic homeLogic)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _logger = logger;
             _db = db;
             _emailSender = emailSender;
+
+            _homeLogic = homeLogic;
         }
 
         public async Task<IActionResult> DelegateAdmin()
@@ -57,33 +63,69 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveAdmin(string uid)
         {
-            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
-            await _userManager.RemoveFromRoleAsync(user, "Admin");
-            return RedirectToAction(nameof(Users));
+            //var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            //await _userManager.RemoveFromRoleAsync(user, "Admin");
+            //return RedirectToAction(nameof(Users));
+            var success = await _homeLogic.RemoveRole(uid, "Admin");
+            if (success)
+            {
+                return RedirectToAction(nameof(Users));
+            }
+            else
+            {
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GrantAdmin(string uid)
         {
-            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
-            await _userManager.AddToRoleAsync(user, "Admin");
-            return RedirectToAction(nameof(Users));
+            //var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            //await _userManager.AddToRoleAsync(user, "Admin");
+            //return RedirectToAction(nameof(Users));
+            var success = await _homeLogic.GrantRole(uid, "Admin");
+            if (success)
+            {
+                return RedirectToAction(nameof(Users));
+            }
+            else
+            {
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveDriver(string uid)
         {
-            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
-            await _userManager.RemoveFromRoleAsync(user, "Driver");
-            return RedirectToAction(nameof(Users));
+            //var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            //await _userManager.RemoveFromRoleAsync(user, "Driver");
+            //return RedirectToAction(nameof(Users));
+            var success = await _homeLogic.RemoveRole(uid, "Driver");
+            if (success)
+            {
+                return RedirectToAction(nameof(Users));
+            }
+            else
+            {
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
         }
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GrantDriver(string uid)
         {
-            var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
-            await _userManager.AddToRoleAsync(user, "Driver");
-            return RedirectToAction(nameof(Users));
+            //var user = _userManager.Users.FirstOrDefault(t => t.Id == uid);
+            //await _userManager.AddToRoleAsync(user, "Driver");
+            //return RedirectToAction(nameof(Users));
+            var success = await _homeLogic.GrantRole(uid, "Driver");
+            if (success)
+            {
+                return RedirectToAction(nameof(Users));
+            }
+            else
+            {
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
         }
 
         [Authorize(Roles = "Admin")]
