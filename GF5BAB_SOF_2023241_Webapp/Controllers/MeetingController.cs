@@ -4,6 +4,7 @@ using GF5BAB_SOF_2023241_Webapp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Immutable;
 
 namespace GF5BAB_SOF_2023241_Webapp.Controllers
 {
@@ -54,6 +55,11 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
                 return RedirectToAction(nameof(AddMeeting));
             }*/
 
+            if (meeting.Name.Length > 10)
+            {
+                TempData["WarningMessage"] = "Some fields are not right!";
+                return View(meeting);
+            }
             var succes = await _meetingLogic.AddMeeting(meeting, this);
             if (succes)
             {

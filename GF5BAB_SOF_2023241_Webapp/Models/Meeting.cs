@@ -8,6 +8,8 @@ namespace GF5BAB_SOF_2023241_Webapp.Models
         [Key]
         public string Uid { get; set; }
 
+        [Required(ErrorMessage = "The Name field is required.")]
+        [StringLength(10, MinimumLength = 0, ErrorMessage = "The Name can be maximum 10 characters long.")]
         public string Name { get; set; }
 
         public string Topics { get; set; }
