@@ -52,6 +52,11 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
                 TempData["WarningMessage"] = "Item already exist!";
                 return RedirectToAction(nameof(AddPart));
             }*/
+            if (part.Name.Length > 30 || part.Width > 99999 || part.Heigth > 99999 || part.SerialNumber.Length > 15)
+            {
+                TempData["WarningMessage"] = "Some fileds are not right.";
+                return View(part);
+            }
 
             var success = await _partLogic.AddPart(part, this);
             if (success)
