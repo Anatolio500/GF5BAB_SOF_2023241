@@ -55,6 +55,12 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
                 return RedirectToAction(nameof(AddTest));
             }*/
 
+            if (test.Name.Length > 30 || test.PartName.Length > 30 || test.StartingTime.Length > 9 || test.EndingTime.Length > 9)
+            {
+                TempData["SuccessMessage"] = "Some fields are not right.";
+                return View(test);
+            }
+
             var success = await _testLogic.AddTest(test, this);
             if (success)
             {

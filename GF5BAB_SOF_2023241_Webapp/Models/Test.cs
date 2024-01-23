@@ -8,13 +8,21 @@ namespace GF5BAB_SOF_2023241_Webapp.Models
         [Key]
         public string Uid { get; set; }
 
+        [Required]
+        [StringLength(30, ErrorMessage = "Test's name can be maximum 30 caratcters.")]
         public string Name { get; set; }
 
+        [Required]
+        [StringLength(30, ErrorMessage = "Part's name can be maximum 30 caratcters.")]
         public string PartName { get; set; }
 
+        [Required]
+        [StringLength(9, ErrorMessage = "Starting time title can be maximum 9 caracters.")]
         public string StartingTime { get; set; }
-        public string EndingTime { get; set; }
 
+        [Required]
+        [StringLength(9, ErrorMessage = "Ending time title can be maximum 9 caracters.")]
+        public string EndingTime { get; set; }
         public string DriverId { get; set; }
 
         [NotMapped]
