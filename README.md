@@ -38,7 +38,7 @@ domain, azure-os is megfelelő)
 
 - tartalmaz a template-ben biztosítotton felül valamilyen alapvető formázásokat CSS-el (saját vagy library) - ✅
 
-- validációkat tartalmaz mind kliens – mind szerveroldalon
+- validációkat tartalmaz mind kliens – mind szerveroldalon ✅
 
 - a controller rétegtől elválasztott logic réteget tartalmaz (de ez egybeolvadhat a 
 repository réteggel is) ✅
