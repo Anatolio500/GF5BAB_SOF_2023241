@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace GF5BAB_SOF_2023241_Webapp.Models
 {
@@ -27,6 +28,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Models
         public string EngineerId { get; set; }
 
         [NotMapped]
+        [JsonIgnore]
         public virtual SiteUser Engineer { get; set; }
         public Part()
         {
