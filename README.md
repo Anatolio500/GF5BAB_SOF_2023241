@@ -47,10 +47,10 @@ repository réteggel is) ✅
 
 ## Bónusz
 
-- rendelkezik API végponttal is
+- rendelkezik API végponttal is ✅
   
 - rendelkezik API kliensalkalmazással is, amelyen valamilyen rész-adatok megjelennek 
-(pl. aggregált adat, statisztika)
+(pl. aggregált adat, statisztika) ✅
 
 - az API kliensalkalmazás signalR segítségével folyamatosan frissíti a felületét
   
