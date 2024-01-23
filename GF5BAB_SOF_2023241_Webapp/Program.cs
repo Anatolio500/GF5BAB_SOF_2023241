@@ -55,9 +55,10 @@ builder.Services.AddScoped<PartController>();
 builder.Services.AddScoped<PartLogic>();
 builder.Services.AddScoped<TestController>();
 builder.Services.AddScoped<TestLogic>();
+builder.Services.AddScoped<IPartLogic, PartLogic>();
+builder.Services.AddScoped<ApiController>();
 
 builder.Services.AddControllersWithViews();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -76,6 +77,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.MapControllers();
 
 app.UseAuthentication();
 app.UseAuthorization();

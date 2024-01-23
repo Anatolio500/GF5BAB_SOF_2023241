@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GF5BAB_SOF_2023241_Webapp.Logic
 {
-    public class PartLogic
+    public class PartLogic : IPartLogic
     {
         private readonly ApplicationDbContext _db;
         private readonly UserManager<SiteUser> _userManager;
