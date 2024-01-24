@@ -214,16 +214,10 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
                     {
                         var wc = new WebClient();
                         wc.Headers.Add("Authorization", "Bearer " + info.AuthenticationTokens.FirstOrDefault().Value);
-                        if (wc.DownloadData($"https://graph.microsoft.com/v1.0/users/{id}/photo/$value") != null)
-                        {
-                            ;
-                            Input.PictureData = wc.DownloadData($"https://graph.microsoft.com/v1.0/users/{id}/photo/$value");
-                            var metadata = wc.DownloadString($"https://graph.microsoft.com/v1.0/users/{id}/photo/");
-                            var mdjson = JsonConvert.DeserializeObject<MsMetaData>(metadata);
-                            Input.PictureContentType = mdjson.odatamediaContentType;
-                        }
-                        ;
-                       
+                        Input.PictureData = wc.DownloadData($"https://graph.microsoft.com/v1.0/users/{id}/photo/$value");
+                        var metadata = wc.DownloadString($"https://graph.microsoft.com/v1.0/users/{id}/photo/");
+                        var mdjson = JsonConvert.DeserializeObject<MsMetaData>(metadata);
+                        Input.PictureContentType = mdjson.odatamediaContentType;
                     }
                 }
                 return Page();
