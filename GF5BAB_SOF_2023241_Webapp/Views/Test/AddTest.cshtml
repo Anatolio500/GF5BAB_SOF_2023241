@@ -14,22 +14,22 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div id="addmargindiv" class="form-group">
                     <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
+                    <input asp-for="Name" class="form-control" required maxlength="30" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
             <div id="addmargindiv" class="form-group">
                     <label asp-for="PartName" class="control-label"></label>
-                    <input asp-for="PartName" class="form-control" />
+                    <input asp-for="PartName" class="form-control" required maxlength="30" />
                     <span asp-validation-for="PartName" class="text-danger"></span>
                 </div>
             <div id="addmargindiv" class="form-group">
                     <label asp-for="StartingTime" class="control-label"></label>
-                    <input asp-for="StartingTime" class="form-control" />
+                    <input asp-for="StartingTime" class="form-control" required maxlength="9" />
                     <span asp-validation-for="StartingTime" class="text-danger"></span>
                 </div>
             <div id="addmargindiv" class="form-group">
                     <label asp-for="EndingTime" class="control-label"></label>
-                    <input asp-for="EndingTime" class="form-control" />
+                    <input asp-for="EndingTime" class="form-control" required maxlength="9" />
                     <span asp-validation-for="EndingTime" class="text-danger"></span>
                 </div>
             <div id="addmargindiv" class="form-group">
