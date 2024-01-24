@@ -206,7 +206,8 @@ namespace GF5BAB_SOF_2023241_Webapp.Areas.Identity.Pages.Account
                         {
                             var access_token_json = new WebClient().DownloadString("https://graph.facebook.com/oauth/access_token?client_id=1021949482474546&client_secret=ab9c8840dd297d0af2183a8c3c508734&grant_type=client_credentials");
                             var token = JsonConvert.DeserializeObject<TokenModel>(access_token_json);
-                            Input.PictureUrl = $"https://graph.facebook.com/v19.0/{id}/picture";
+                            //Input.PictureUrl = $"https://graph.facebook.com/v19.0/{id}/picture";
+                            Input.PictureUrl = $"https://graph.facebook.com/v19.0/{id}/picture?type=large&access_token={token.access_token}";
                         }
                     }
                     //Microsoftos rész
