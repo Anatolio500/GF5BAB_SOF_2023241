@@ -54,7 +54,7 @@ namespace GF5BAB_SOF_2023241_Webapp.Controllers
                 TempData["WarningMessage"] = "Item already exist!";
                 return RedirectToAction(nameof(AddMeeting));
             }*/
-            
+            ;
             if (meeting.Name.Length > 15 || meeting.Topics.Length > 30 || meeting.StartingTime.Length > 9 || meeting.EndingTime.Length > 9)
             {
                 TempData["WarningMessage"] = "Some fields are not right!";
